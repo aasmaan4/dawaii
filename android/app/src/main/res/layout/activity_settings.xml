@@ -115,6 +115,15 @@
             android:layout_marginBottom="12dp" />
 
         <Switch
+            android:id="@+id/switchEnableNotifications"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enable Medication Notifications"
+            android:textColor="#FFFFFF"
+            android:checked="true"
+            android:layout_marginBottom="12dp" />
+
+        <Switch
             android:id="@+id/switchBrightenOnScroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

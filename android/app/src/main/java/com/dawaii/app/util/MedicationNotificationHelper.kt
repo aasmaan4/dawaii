@@ -67,6 +67,10 @@ object MedicationNotificationHelper {
 
         val notificationId = medicine.id.toInt()
         val prefs = AppPreferences.getInstance(context)
+        if (!prefs.isNotificationsEnabled) {
+            android.util.Log.d("MedNotificationHelper", "Medication notifications are disabled in user settings. Skipping.")
+            return
+        }
 
         // 1. Full-Screen Intent to wake the screen and display LockScreenOverlayActivity when sleeping/locked
         val fullScreenIntent = Intent(context, LockScreenOverlayActivity::class.java).apply {
@@ -136,9 +140,13 @@ object MedicationNotificationHelper {
             .setOngoing(true) // Pinned until explicitly marked taken
             .setAutoCancel(false) // Does not dismiss automatically
             .setContentIntent(contentPendingIntent)
-            .setFullScreenIntent(fullScreenPendingIntent, true) // Wakes screen & shows lock screen overlay
             .addAction(R.drawable.ic_launcher, "Mark Taken ✓", markTakenPendingIntent)
             .addAction(R.drawable.ic_launcher, "Snooze 10m ⏰", snoozePendingIntent)
+
+        // Attach full-screen intent ONLY if overlay is enabled in settings
+        if (prefs.isOverlayEnabled) {
+            builder.setFullScreenIntent(fullScreenPendingIntent, true) // Wakes screen & shows lock screen overlay
+        }
 
         val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         builder.setSound(soundUri)

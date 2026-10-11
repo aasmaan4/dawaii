@@ -53,9 +53,10 @@ class AlarmReceiver : BroadcastReceiver() {
                     return@launch
                 }
 
-                // 1. Post persistent lock screen notification reminder.
-                // It stays pinned on lockscreen & notification bar until marked taken or snoozed!
-                MedicationNotificationHelper.showMedicationAlarmNotification(context, medication, scheduledTime)
+                // 1. Post persistent lock screen notification reminder if notifications are enabled
+                if (prefs.isNotificationsEnabled) {
+                    MedicationNotificationHelper.showMedicationAlarmNotification(context, medication, scheduledTime)
+                }
 
                 // 2. Lock-screen Always-On Overlay:
                 // Triggers when device is locked or screen is off/sleeping

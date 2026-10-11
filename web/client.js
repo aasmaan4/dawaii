@@ -65,6 +65,7 @@ const state = {
   wheelMax: 60,
   wheelStep: 5,
   isOverlayEnabled: true,
+  isNotificationsEnabled: true,
   brightenOnScroll: true,
   isOverlayActive: false,
   isOverlayVisible: false,
@@ -260,6 +261,12 @@ const toggleChimeOverlay = document.getElementById('toggleChimeOverlay');
 const toggleChimeNotif = document.getElementById('toggleChimeNotif');
 const selectDoubleTap = document.getElementById('selectDoubleTap');
 const selectTripleTap = document.getElementById('selectTripleTap');
+
+// Setup Overlay & Notification Master Toggles
+const toggleSetupOverlay = document.getElementById('toggleSetupOverlay');
+const toggleSetupNotifications = document.getElementById('toggleSetupNotifications');
+const lblSetupOverlayStatus = document.getElementById('lblSetupOverlayStatus');
+const lblSetupNotificationStatus = document.getElementById('lblSetupNotificationStatus');
 
 // Animated Modal Elements
 const animatedModalOverlay = document.getElementById('animatedModalOverlay');
@@ -1992,10 +1999,35 @@ setAppTheme(state.theme || 'SAKURA');
 if (toggleEnableOverlay) {
   toggleEnableOverlay.addEventListener('change', (e) => {
     state.isOverlayEnabled = e.target.checked;
-    showGestureHud(state.isOverlayEnabled ? 'Lock-Screen Overlay Enabled' : 'Lock-Screen Overlay Disabled');
+    if (toggleSetupOverlay) toggleSetupOverlay.checked = state.isOverlayEnabled;
+    if (lblSetupOverlayStatus) lblSetupOverlayStatus.textContent = state.isOverlayEnabled ? 'Active: Wakes screen & displays full ambient overlay' : 'Off: Overlays will not trigger on dose time';
+    showGestureHud(state.isOverlayEnabled ? 'Lock-Screen Overlay Enabled ✓' : 'Lock-Screen Overlay Disabled');
     if (!state.isOverlayEnabled && state.isOverlayVisible) {
       dismissOverlay('Overlay Disabled in Settings');
     }
+    syncToCloud();
+  });
+}
+
+if (toggleSetupOverlay) {
+  toggleSetupOverlay.addEventListener('change', (e) => {
+    state.isOverlayEnabled = e.target.checked;
+    if (toggleEnableOverlay) toggleEnableOverlay.checked = state.isOverlayEnabled;
+    if (lblSetupOverlayStatus) lblSetupOverlayStatus.textContent = state.isOverlayEnabled ? 'Active: Wakes screen & displays full ambient overlay' : 'Off: Overlays will not trigger on dose time';
+    showGestureHud(state.isOverlayEnabled ? 'Lock-Screen Overlay Enabled ✓' : 'Lock-Screen Overlay Disabled');
+    if (!state.isOverlayEnabled && state.isOverlayVisible) {
+      dismissOverlay('Overlay Disabled in Settings');
+    }
+    syncToCloud();
+  });
+}
+
+if (toggleSetupNotifications) {
+  toggleSetupNotifications.addEventListener('change', (e) => {
+    state.isNotificationsEnabled = e.target.checked;
+    if (lblSetupNotificationStatus) lblSetupNotificationStatus.textContent = state.isNotificationsEnabled ? 'Active: Push reminders appear on status bar' : 'Off: All medication notifications silenced';
+    showGestureHud(state.isNotificationsEnabled ? 'Medication Notifications Enabled ✓' : 'Medication Notifications Disabled');
+    syncToCloud();
   });
 }
 
@@ -3264,6 +3296,11 @@ document.querySelectorAll('.rec-filter-pill').forEach(btn => {
 function renderSetupOverlay() {
   const container = document.getElementById('setupOverlayMedsList');
   const countEl = document.getElementById('setupMedsCount');
+  if (toggleSetupOverlay) toggleSetupOverlay.checked = state.isOverlayEnabled !== false;
+  if (toggleSetupNotifications) toggleSetupNotifications.checked = state.isNotificationsEnabled !== false;
+  if (lblSetupOverlayStatus) lblSetupOverlayStatus.textContent = state.isOverlayEnabled !== false ? 'Active: Wakes screen & displays full ambient overlay' : 'Off: Overlays will not trigger on dose time';
+  if (lblSetupNotificationStatus) lblSetupNotificationStatus.textContent = state.isNotificationsEnabled !== false ? 'Active: Push reminders appear on status bar' : 'Off: All medication notifications silenced';
+
   if (!container) return;
   container.innerHTML = '';
 
@@ -3349,7 +3386,15 @@ function openQuickTimeAdjustmentModal(med) {
 const btnTestLockScreenNow = document.getElementById('btnTestLockScreenNow');
 if (btnTestLockScreenNow) {
   btnTestLockScreenNow.addEventListener('click', () => {
-    showOverlay();
+    if (!state.isOverlayEnabled) {
+      showGestureHud('Testing Lock-Screen Overlay (Preview Mode)...');
+      const prev = state.isOverlayEnabled;
+      state.isOverlayEnabled = true;
+      showOverlay();
+      state.isOverlayEnabled = prev;
+    } else {
+      showOverlay();
+    }
   });
 }
 

@@ -50,6 +50,7 @@ class LockScreenOverlayActivity : ComponentActivity() {
         private const val TAG = "LockScreenOverlayAct"
         const val EXTRA_MEDICATION_ID = "extra_medication_id"
         const val EXTRA_SCHEDULED_TIME = "extra_scheduled_time"
+        const val EXTRA_FORCE_TEST = "extra_force_test"
     }
 
     private lateinit var preferences: AppPreferences
@@ -64,14 +65,21 @@ class LockScreenOverlayActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        preferences = AppPreferences.getInstance(this)
+        database = AppDatabase.getInstance(this)
+
+        val isForceTest = intent.getBooleanExtra(EXTRA_FORCE_TEST, false)
+        if (!preferences.isOverlayEnabled && !isForceTest) {
+            Log.d(TAG, "Overlay disabled in user settings and not a test preview. Finishing LockScreenOverlayActivity.")
+            finish()
+            return
+        }
+
         // 1. Android OS Alignment: Allow activity to wake screen and display above keyguard
         setupLockScreenFlags()
 
         // 2. Acquire hardware wake lock to physically wake display from sleep
         acquireWakeLock()
-
-        preferences = AppPreferences.getInstance(this)
-        database = AppDatabase.getInstance(this)
 
         val medicationId = intent.getLongExtra(EXTRA_MEDICATION_ID, -1L)
         val scheduledTime = intent.getLongExtra(EXTRA_SCHEDULED_TIME, System.currentTimeMillis())

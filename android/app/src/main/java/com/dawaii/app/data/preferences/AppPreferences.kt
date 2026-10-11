@@ -57,6 +57,7 @@ class AppPreferences(context: Context) {
         private const val KEY_CAREGIVER_PHONE = "key_caregiver_phone"
         private const val KEY_CAREGIVER_ENABLED = "key_caregiver_enabled"
         private const val KEY_OVERLAY_ENABLED = "key_overlay_enabled"
+        private const val KEY_NOTIFICATIONS_ENABLED = "key_notifications_enabled"
         private const val KEY_BRIGHTEN_ON_SCROLL = "key_brighten_on_scroll"
         private const val KEY_GEMINI_API_KEY = "key_gemini_api_key"
         private const val KEY_INITIAL_SEED_DONE = "key_initial_seed_done"
@@ -106,6 +107,10 @@ class AppPreferences(context: Context) {
         return prefs.getBoolean(KEY_OVERLAY_ENABLED, true)
     }
 
+    private fun readNotificationsEnabled(): Boolean {
+        return prefs.getBoolean(KEY_NOTIFICATIONS_ENABLED, true)
+    }
+
     private fun readBrightenOnScroll(): Boolean {
         return prefs.getBoolean(KEY_BRIGHTEN_ON_SCROLL, true)
     }
@@ -115,6 +120,9 @@ class AppPreferences(context: Context) {
 
     private val _overlayEnabledFlow = MutableStateFlow(readOverlayEnabled())
     val overlayEnabledFlow: StateFlow<Boolean> = _overlayEnabledFlow.asStateFlow()
+
+    private val _notificationsEnabledFlow = MutableStateFlow(readNotificationsEnabled())
+    val notificationsEnabledFlow: StateFlow<Boolean> = _notificationsEnabledFlow.asStateFlow()
 
     private val _brightenOnScrollFlow = MutableStateFlow(readBrightenOnScroll())
     val brightenOnScrollFlow: StateFlow<Boolean> = _brightenOnScrollFlow.asStateFlow()
@@ -311,6 +319,17 @@ class AppPreferences(context: Context) {
 
     fun setOverlayEnabledPreference(value: Boolean) {
         isOverlayEnabled = value
+    }
+
+    var isNotificationsEnabled: Boolean
+        get() = _notificationsEnabledFlow.value
+        set(value) {
+            prefs.edit().putBoolean(KEY_NOTIFICATIONS_ENABLED, value).apply()
+            _notificationsEnabledFlow.value = value
+        }
+
+    fun setNotificationsEnabledPreference(value: Boolean) {
+        isNotificationsEnabled = value
     }
 
     var brightenOnScroll: Boolean

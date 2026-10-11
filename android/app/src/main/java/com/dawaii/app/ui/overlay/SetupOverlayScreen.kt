@@ -71,6 +71,9 @@ fun SetupOverlayScreen() {
         mutableStateOf(powerManager?.isIgnoringBatteryOptimizations(context.packageName) ?: false)
     }
 
+    val isOverlayEnabled by prefs.overlayEnabledFlow.collectAsState()
+    val isNotificationsEnabled by prefs.notificationsEnabledFlow.collectAsState()
+
     // Refresh permission checks
     LaunchedEffect(Unit) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -109,6 +112,101 @@ fun SetupOverlayScreen() {
             verticalArrangement = Arrangement.spacedBy(14.dp),
             modifier = Modifier.fillMaxWidth().weight(1f)
         ) {
+            // Master System Controls Card (Overlay Toggle & Notifications Toggle)
+            item {
+                Card(
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(containerColor = DarkSurface),
+                    border = CardDefaults.outlinedCardBorder().copy(brush = androidx.compose.ui.graphics.SolidColor(DarkBorder)),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Icon(Icons.Outlined.Tune, contentDescription = null, tint = BlushPinkPrimary, modifier = Modifier.size(18.dp))
+                            Text(
+                                text = "SYSTEM ALERTS & NOTIFICATIONS",
+                                style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
+                                color = BlushPinkPrimary
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(14.dp))
+
+                        // 1. Master Overlay Switch
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column(modifier = Modifier.weight(1f).padding(end = 12.dp)) {
+                                Text(
+                                    text = "Lock-Screen Overlay",
+                                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold),
+                                    color = SoftWhite
+                                )
+                                Text(
+                                    text = if (isOverlayEnabled) "Active: Wakes screen & displays full overlay" else "Off: Overlays will not trigger on dose time",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = if (isOverlayEnabled) BlushPinkPrimary else MutedGreyPink
+                                )
+                            }
+                            Switch(
+                                checked = isOverlayEnabled,
+                                onCheckedChange = { checked ->
+                                    prefs.setOverlayEnabledPreference(checked)
+                                    Toast.makeText(context, if (checked) "Lock-Screen Overlay Enabled ✓" else "Lock-Screen Overlay Disabled", Toast.LENGTH_SHORT).show()
+                                },
+                                colors = SwitchDefaults.colors(
+                                    checkedThumbColor = DarkCharcoalBg,
+                                    checkedTrackColor = BlushPinkPrimary,
+                                    uncheckedThumbColor = MutedGreyPink,
+                                    uncheckedTrackColor = DarkSurfaceVariant,
+                                    uncheckedBorderColor = DarkBorder
+                                )
+                            )
+                        }
+
+                        HorizontalDivider(color = DarkBorder.copy(alpha = 0.5f), modifier = Modifier.padding(vertical = 12.dp))
+
+                        // 2. Master Notifications Switch
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column(modifier = Modifier.weight(1f).padding(end = 12.dp)) {
+                                Text(
+                                    text = "Medication Notifications",
+                                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold),
+                                    color = SoftWhite
+                                )
+                                Text(
+                                    text = if (isNotificationsEnabled) "Active: Push reminders appear on status bar" else "Off: All medication notifications silenced",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = if (isNotificationsEnabled) BlushPinkPrimary else MutedGreyPink
+                                )
+                            }
+                            Switch(
+                                checked = isNotificationsEnabled,
+                                onCheckedChange = { checked ->
+                                    prefs.setNotificationsEnabledPreference(checked)
+                                    Toast.makeText(context, if (checked) "Medication Notifications Enabled ✓" else "Medication Notifications Disabled", Toast.LENGTH_SHORT).show()
+                                },
+                                colors = SwitchDefaults.colors(
+                                    checkedThumbColor = DarkCharcoalBg,
+                                    checkedTrackColor = BlushPinkPrimary,
+                                    uncheckedThumbColor = MutedGreyPink,
+                                    uncheckedTrackColor = DarkSurfaceVariant,
+                                    uncheckedBorderColor = DarkBorder
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+
             // Android OS Permissions Status Card
             item {
                 Card(
@@ -141,6 +239,7 @@ fun SetupOverlayScreen() {
                                     val previewIntent = Intent(context, LockScreenOverlayActivity::class.java).apply {
                                         putExtra(LockScreenOverlayActivity.EXTRA_MEDICATION_ID, 1L)
                                         putExtra(LockScreenOverlayActivity.EXTRA_SCHEDULED_TIME, System.currentTimeMillis())
+                                        putExtra(LockScreenOverlayActivity.EXTRA_FORCE_TEST, true)
                                         flags = Intent.FLAG_ACTIVITY_NEW_TASK
                                     }
                                     context.startActivity(previewIntent)
@@ -329,6 +428,7 @@ fun SetupOverlayScreen() {
                 val intent = Intent(context, LockScreenOverlayActivity::class.java).apply {
                     putExtra(LockScreenOverlayActivity.EXTRA_MEDICATION_ID, med.id)
                     putExtra(LockScreenOverlayActivity.EXTRA_SCHEDULED_TIME, System.currentTimeMillis())
+                    putExtra(LockScreenOverlayActivity.EXTRA_FORCE_TEST, true)
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                 }
                 context.startActivity(intent)

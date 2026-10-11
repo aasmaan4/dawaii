@@ -74,11 +74,17 @@ class SettingsActivity : Activity() {
 
         // Overlay & Brighten on Scroll Switches
         val switchEnableOverlay = findViewById<Switch>(R.id.switchEnableOverlay)
+        val switchEnableNotifications = findViewById<Switch>(R.id.switchEnableNotifications)
         val switchBrightenOnScroll = findViewById<Switch>(R.id.switchBrightenOnScroll)
 
         switchEnableOverlay.isChecked = prefs.isOverlayEnabled
         switchEnableOverlay.setOnCheckedChangeListener { _, isChecked ->
             prefs.isOverlayEnabled = isChecked
+        }
+
+        switchEnableNotifications.isChecked = prefs.isNotificationsEnabled
+        switchEnableNotifications.setOnCheckedChangeListener { _, isChecked ->
+            prefs.isNotificationsEnabled = isChecked
         }
 
         switchBrightenOnScroll.isChecked = prefs.brightenOnScroll

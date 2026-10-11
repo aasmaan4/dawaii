@@ -99,14 +99,15 @@ fun SmartAiScannerScreen(
         )
 
         // Top Floating Chip: Gemini API Key Status / Config
+        // Positioned TopCenter (top = 74.dp) to eliminate any overlap with the cross/close button in the top bar
         Box(
             modifier = Modifier
-                .align(Alignment.TopStart)
-                .padding(top = 16.dp, start = 16.dp)
+                .align(Alignment.TopCenter)
+                .padding(top = 74.dp)
         ) {
             Surface(
                 shape = RoundedCornerShape(20.dp),
-                color = DarkSurface.copy(alpha = 0.85f),
+                color = DarkSurface.copy(alpha = 0.90f),
                 border = BorderStroke(1.dp, if (prefs.geminiApiKey.isNotBlank()) BlushPinkPrimary else MutedGreyPink),
                 modifier = Modifier.clickable {
                     apiKeyInput = prefs.geminiApiKey
@@ -114,7 +115,7 @@ fun SmartAiScannerScreen(
                 }
             ) {
                 Row(
-                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                    modifier = Modifier.padding(horizontal = 14.dp, vertical = 7.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
@@ -125,8 +126,8 @@ fun SmartAiScannerScreen(
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        text = if (prefs.geminiApiKey.isNotBlank()) "Gemini Key: Active ✓" else "Set Gemini API Key",
-                        style = MaterialTheme.typography.labelSmall,
+                        text = if (prefs.geminiApiKey.isNotBlank()) "Gemini Vision: Active ✓" else "Set Gemini API Key",
+                        style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Medium),
                         color = SoftWhite
                     )
                 }

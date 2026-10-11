@@ -49,6 +49,7 @@ fun CustomizeScreen() {
     val chimeDelay by prefs.chimeDelayFlow.collectAsState()
     val dimnessPercent by prefs.dimnessFlow.collectAsState()
     val isOverlayEnabled by prefs.overlayEnabledFlow.collectAsState()
+    val isNotificationsEnabled by prefs.notificationsEnabledFlow.collectAsState()
     val brightenOnScroll by prefs.brightenOnScrollFlow.collectAsState()
     val is24Hour by prefs.is24HourFlow.collectAsState()
     val overlayTextPref by prefs.overlayTextFlow.collectAsState()
@@ -274,6 +275,44 @@ fun CustomizeScreen() {
                             Switch(
                                 checked = isOverlayEnabled,
                                 onCheckedChange = { prefs.setOverlayEnabledPreference(it) },
+                                colors = SwitchDefaults.colors(
+                                    checkedThumbColor = DarkCharcoalBg,
+                                    checkedTrackColor = BlushPinkPrimary,
+                                    uncheckedThumbColor = MutedGreyPink,
+                                    uncheckedTrackColor = DarkSurfaceVariant,
+                                    uncheckedBorderColor = DarkBorder
+                                )
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(14.dp))
+                        Box(modifier = Modifier.fillMaxWidth().height(1.dp).background(DarkBorder.copy(alpha = 0.5f)))
+                        Spacer(modifier = Modifier.height(14.dp))
+
+                        // 1b. Medication Notifications Switch
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column(modifier = Modifier.weight(1f).padding(end = 12.dp)) {
+                                Text(
+                                    text = "Medication Notifications",
+                                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = 15.sp),
+                                    color = SoftWhite
+                                )
+                                Text(
+                                    text = "Push alerts & sound notifications for upcoming doses.",
+                                    style = MaterialTheme.typography.bodySmall.copy(
+                                        fontFamily = BodoniPosterFamily,
+                                        fontSize = 12.sp,
+                                        color = MutedGreyPink
+                                    )
+                                )
+                            }
+                            Switch(
+                                checked = isNotificationsEnabled,
+                                onCheckedChange = { prefs.setNotificationsEnabledPreference(it) },
                                 colors = SwitchDefaults.colors(
                                     checkedThumbColor = DarkCharcoalBg,
                                     checkedTrackColor = BlushPinkPrimary,

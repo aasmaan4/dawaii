@@ -104,6 +104,8 @@ class ScreenStateReceiver : BroadcastReceiver() {
     }
 
     private fun triggerOverlayForPending(context: Context) {
+        val prefs = AppPreferences(context)
+        if (!prefs.isOverlayEnabled) return
         val database = AppDatabase.getInstance(context)
         CoroutineScope(Dispatchers.IO).launch {
             val pendingDose = database.doseLogDao().getLatestPendingDose()

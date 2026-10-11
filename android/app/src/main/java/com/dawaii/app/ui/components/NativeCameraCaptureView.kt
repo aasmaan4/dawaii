@@ -16,6 +16,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -80,12 +81,6 @@ fun NativeCameraCaptureView(
         hasCameraPermission = isGranted
     }
 
-    LaunchedEffect(Unit) {
-        if (!hasCameraPermission) {
-            permissionLauncher.launch(Manifest.permission.CAMERA)
-        }
-    }
-
     // Camera states
     var cameraLensFacing by remember { mutableStateOf(CameraSelector.LENS_FACING_BACK) }
     var isFlashOn by remember { mutableStateOf(false) }
@@ -95,6 +90,39 @@ fun NativeCameraCaptureView(
 
     // Flash animation on shutter
     var showFlashOverlay by remember { mutableStateOf(false) }
+
+    val galleryLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { pickedUri: Uri? ->
+        if (pickedUri != null) {
+            isCapturing = true
+            coroutineScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+                try {
+                    val cacheFile = File(context.cacheDir, "prescription_uploaded_${System.currentTimeMillis()}.jpg")
+                    context.contentResolver.openInputStream(pickedUri)?.use { input ->
+                        cacheFile.outputStream().use { output ->
+                            input.copyTo(output)
+                        }
+                    }
+                    kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Main) {
+                        isCapturing = false
+                        onPhotoCaptured(cacheFile.absolutePath)
+                    }
+                } catch (e: Exception) {
+                    kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Main) {
+                        isCapturing = false
+                        onPhotoCaptured(pickedUri.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        if (!hasCameraPermission) {
+            permissionLauncher.launch(Manifest.permission.CAMERA)
+        }
+    }
 
     Box(
         modifier = modifier
@@ -270,81 +298,151 @@ fun NativeCameraCaptureView(
                     }
                 }
 
-                // Bottom Minimal Shutter Controller
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                    modifier = Modifier.padding(bottom = 16.dp)
+                // Bottom Camera & Upload Controller Bar
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 16.dp, start = 16.dp, end = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // Shutter Ring + Button
-                    val shutterScale by animateFloatAsState(
-                        targetValue = if (isCapturing) 0.88f else 1.0f,
-                        animationSpec = tween(120),
-                        label = "shutterScale"
-                    )
-
-                    Box(
-                        modifier = Modifier
-                            .size(84.dp)
-                            .clip(CircleShape)
-                            .background(DarkCharcoalBg.copy(alpha = 0.65f))
-                            .border(3.dp, BlushPinkPrimary, CircleShape)
-                            .padding(6.dp)
-                            .clickable(enabled = !isCapturing) {
-                                isCapturing = true
-                                showFlashOverlay = true
-                                coroutineScope.launch {
-                                    delay(80)
-                                    showFlashOverlay = false
-                                }
-
-                                takePhoto(
-                                    context = context,
-                                    imageCapture = imageCapture,
-                                    onSuccess = { uri ->
-                                        isCapturing = false
-                                        onPhotoCaptured(uri)
-                                    },
-                                    onError = {
-                                        // Generate fallback internal cache photo
-                                        val fallbackUri = createFallbackMedicinePhoto(context)
-                                        isCapturing = false
-                                        onPhotoCaptured(fallbackUri)
-                                    }
-                                )
-                            },
-                        contentAlignment = Alignment.Center
+                    // 1. Upload from Device / Gallery
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.clickable(enabled = !isCapturing) {
+                            galleryLauncher.launch("image/*")
+                        }
                     ) {
                         Box(
                             modifier = Modifier
-                                .fillMaxSize()
-                                .scale(shutterScale)
+                                .size(56.dp)
                                 .clip(CircleShape)
-                                .background(BlushPinkPrimary),
+                                .background(DarkCharcoalBg.copy(alpha = 0.85f))
+                                .border(1.5.dp, BlushPinkPrimary.copy(alpha = 0.9f), CircleShape),
                             contentAlignment = Alignment.Center
                         ) {
-                            if (isCapturing) {
-                                CircularProgressIndicator(
-                                    modifier = Modifier.size(24.dp),
-                                    color = DarkCharcoalBg,
-                                    strokeWidth = 2.dp
-                                )
-                            } else {
-                                Icon(
-                                    imageVector = Icons.Outlined.PhotoCamera,
-                                    contentDescription = "Capture Photo",
-                                    tint = DarkCharcoalBg,
-                                    modifier = Modifier.size(28.dp)
-                                )
-                            }
+                            Icon(
+                                imageVector = Icons.Outlined.PhotoLibrary,
+                                contentDescription = "Upload Prescription",
+                                tint = BlushPinkPrimary,
+                                modifier = Modifier.size(24.dp)
+                            )
                         }
+                        Spacer(modifier = Modifier.height(6.dp))
+                        Text(
+                            text = "UPLOAD",
+                            style = MaterialTheme.typography.labelSmall.copy(letterSpacing = 1.2.sp, fontWeight = FontWeight.Bold),
+                            color = BlushPinkPrimary
+                        )
                     }
 
-                    Text(
-                        text = "TAP TO CAPTURE",
-                        style = MaterialTheme.typography.labelSmall.copy(letterSpacing = 1.5.sp),
-                        color = MutedGreyPink
-                    )
+                    // 2. Center Shutter Ring + Button
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        val shutterScale by animateFloatAsState(
+                            targetValue = if (isCapturing) 0.88f else 1.0f,
+                            animationSpec = tween(120),
+                            label = "shutterScale"
+                        )
+
+                        Box(
+                            modifier = Modifier
+                                .size(84.dp)
+                                .clip(CircleShape)
+                                .background(DarkCharcoalBg.copy(alpha = 0.65f))
+                                .border(3.dp, BlushPinkPrimary, CircleShape)
+                                .padding(6.dp)
+                                .clickable(enabled = !isCapturing) {
+                                    isCapturing = true
+                                    showFlashOverlay = true
+                                    coroutineScope.launch {
+                                        delay(80)
+                                        showFlashOverlay = false
+                                    }
+
+                                    takePhoto(
+                                        context = context,
+                                        imageCapture = imageCapture,
+                                        onSuccess = { uri ->
+                                            isCapturing = false
+                                            onPhotoCaptured(uri)
+                                        },
+                                        onError = {
+                                            val fallbackUri = createFallbackMedicinePhoto(context)
+                                            isCapturing = false
+                                            onPhotoCaptured(fallbackUri)
+                                        }
+                                    )
+                                },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .scale(shutterScale)
+                                    .clip(CircleShape)
+                                    .background(BlushPinkPrimary),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                if (isCapturing) {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier.size(24.dp),
+                                        color = DarkCharcoalBg,
+                                        strokeWidth = 2.dp
+                                    )
+                                } else {
+                                    Icon(
+                                        imageVector = Icons.Outlined.PhotoCamera,
+                                        contentDescription = "Capture Photo",
+                                        tint = DarkCharcoalBg,
+                                        modifier = Modifier.size(28.dp)
+                                    )
+                                }
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(6.dp))
+                        Text(
+                            text = "CAPTURE",
+                            style = MaterialTheme.typography.labelSmall.copy(letterSpacing = 1.5.sp, fontWeight = FontWeight.Bold),
+                            color = MutedGreyPink
+                        )
+                    }
+
+                    // 3. Flip Camera Lens Button
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.clickable {
+                            cameraLensFacing = if (cameraLensFacing == CameraSelector.LENS_FACING_BACK) {
+                                CameraSelector.LENS_FACING_FRONT
+                            } else {
+                                CameraSelector.LENS_FACING_BACK
+                            }
+                        }
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(56.dp)
+                                .clip(CircleShape)
+                                .background(DarkCharcoalBg.copy(alpha = 0.85f))
+                                .border(1.dp, DarkBorder, CircleShape),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.FlipCameraAndroid,
+                                contentDescription = "Flip Camera",
+                                tint = SoftWhite,
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(6.dp))
+                        Text(
+                            text = "FLIP",
+                            style = MaterialTheme.typography.labelSmall.copy(letterSpacing = 1.2.sp, fontWeight = FontWeight.SemiBold),
+                            color = SoftWhite
+                        )
+                    }
                 }
             }
 
@@ -423,6 +521,33 @@ fun NativeCameraCaptureView(
                             letterSpacing = 1.sp
                         ),
                         color = DarkCharcoalBg
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                OutlinedButton(
+                    onClick = { galleryLauncher.launch("image/*") },
+                    border = BorderStroke(1.dp, BlushPinkPrimary),
+                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.PhotoLibrary,
+                        contentDescription = null,
+                        tint = BlushPinkPrimary,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "UPLOAD FROM DEVICE INSTEAD",
+                        style = MaterialTheme.typography.labelMedium.copy(
+                            fontWeight = FontWeight.Bold,
+                            letterSpacing = 1.sp
+                        ),
+                        color = BlushPinkPrimary
                     )
                 }
 
