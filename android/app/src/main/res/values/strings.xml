@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">dawaii</string>
+    <string name="medication_reminder">Medication Reminder</string>
+    <string name="dawaii_exclamation">DAWAII!!</string>
+    <string name="settings_title">DAWAII Settings</string>
+    <string name="visuals_section">Visuals &amp; Themes</string>
+    <string name="audio_section">Audio Chimes</string>
+    <string name="gestures_section">Muscle Memory Gestures</string>
+    <string name="scrollwheel_section">Scrollwheel Setup</string>
+    <string name="night_shift_section">Night Shift Mode</string>
+</resources>

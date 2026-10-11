@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "lastUpdated": "2026-10-04T14:40:00.000Z",
+  "doctors": [
+    {
+      "id": 1,
+      "name": "Dr. Rajesh Sharma",
+      "contact": "+91 98201 45678",
+      "specialty": "Cardiologist"
+    },
+    {
+      "id": 2,
+      "name": "Dr. Ananya Iyer",
+      "contact": "+91 98450 12345",
+      "specialty": "General Physician"
+    }
+  ],
+  "medicines": [
+    {
+      "id": 1,
+      "doctorId": 1,
+      "name": "Blood Pressure",
+      "dosage": "Telmisartan 40mg",
+      "type": "Pill",
+      "hour": 8,
+      "minute": 0,
+      "pillsLeft": 12,
+      "daysLeft": 30,
+      "isTaken": false
+    },
+    {
+      "id": 3,
+      "doctorId": 1,
+      "name": "Evening Antacid",
+      "dosage": "Pan-D 40mg",
+      "type": "Capsule",
+      "hour": 23,
+      "minute": 30,
+      "pillsLeft": 18,
+      "daysLeft": 14,
+      "isTaken": false
+    },
+    {
+      "id": 4,
+      "doctorId": 2,
+      "name": "Pain Relief Gel",
+      "dosage": "Volini apply thin layer",
+      "type": "Cream",
+      "hour": 22,
+      "minute": 0,
+      "pillsLeft": null,
+      "daysLeft": 7,
+      "isTaken": false
+    }
+  ],
+  "appointments": [
+    {
+      "id": 1,
+      "doctorId": 1,
+      "date": "Thursday, Oct 8",
+      "time": "3:30 PM",
+      "location": "Apollo Clinic, Indiranagar, Suite 402",
+      "notes": "Bring recent ECG reports and BP chart",
+      "isAttended": false
+    },
+    {
+      "id": 2,
+      "doctorId": 2,
+      "date": "Friday, Oct 23",
+      "time": "10:00 AM",
+      "location": "Manipal Hospital, Old Airport Road, Room 12",
+      "notes": "Routine health checkup and blood tests",
+      "isAttended": false
+    }
+  ],
+  "preferences": {
+    "overlayText": "DAWA!",
+    "caregiverPhone": "9692298485",
+    "caregiverEnabled": true,
+    "brightenOnScroll": true,
+    "doubleTapAction": "Unlock Phone",
+    "tripleTapAction": "Mark Taken",
+    "theme": "SAKURA",
+    "initialDimness": 0.40,
+    "isChimeEnabled": true,
+    "chimeOnOverlay": true,
+    "isOverlayEnabled": true
+  }
+}

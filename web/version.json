@@ -1,0 +1,7 @@
+{
+  "versionCode": 26,
+  "versionName": "2.4.6",
+  "version": "2.4.6",
+  "apkUrl": "https://dawiiii.vercel.app/dawaii.apk",
+  "releaseNotes": "App update feedback: confirms when updated with version display, and notifies when already on the latest version."
+}

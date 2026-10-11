@@ -1,0 +1,29 @@
+# Built application files
+*.apk
+*.aar
+*.aab
+*.zip
+
+# Android & Gradle
+.gradle/
+build/
+**/build/
+local.properties
+*.iml
+.idea/
+.externalNativeBuild/
+.cxx/
+captures/
+
+# Web & Node
+node_modules/
+.vercel/
+.env
+.env.local
+.env.*.local
+dist/
+
+# OS and temporary files
+Thumbs.db
+.DS_Store
+*.log

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Sakura Theme: Very dark, desaturated tone & blush pink -->
+    <color name="sakura_bg">#0E0B0D</color>
+    <color name="sakura_pink_primary">#FFB7C5</color>
+    <color name="sakura_pink_dim">#80FFB7C5</color>
+    <color name="sakura_pink_accent">#FAD2E1</color>
+    <color name="sakura_branch_tint">#221219</color>
+
+    <!-- Normal Theme: Pure pitch black & crisp white -->
+    <color name="normal_bg">#000000</color>
+    <color name="normal_text_primary">#FFFFFF</color>
+    <color name="normal_text_dim">#66FFFFFF</color>
+
+    <!-- Common UI Palette -->
+    <color name="card_dark">#181519</color>
+    <color name="card_stroke">#2D252E</color>
+    <color name="accent_gold">#E0C097</color>
+</resources>

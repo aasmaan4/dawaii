@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>DAWAII!! - Daily Medicine Companion</title>
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#09080A" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="apple-touch-icon" href="icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Cinzel:wght@600;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="phone-app-only">
+  <div class="app-layout">
+    <!-- Top Navigation Header -->
+    <header class="app-header">
+      <div class="header-brand">
+        <img src="icon.png" class="header-brand-logo" alt="Dawaii Logo" />
+        <div>
+          <div class="brand-badge">MINIMALIST MEDICATION SYSTEM</div>
+          <h1>DAWAII!! <span>Daily Medicine Companion</span></h1>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="btnInstallPWA" class="btn btn-outline btn-install-pwa hidden">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Install App
+        </button>
+        <div class="status-pill"><span class="dot live"></span> Live Android Emulator</div>
+        <button id="btnHeaderTriggerOverlay" class="btn btn-accent">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Test Lock Screen Alert
+        </button>
+        <button id="btnDownloadZip" class="btn btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Android Project (.zip)
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace Grid -->
+    <main class="main-content">
+      <!-- Left Column: Interactive Smartphone Emulator -->
+      <section class="emulator-panel">
+        <div class="panel-header">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <h2>Live Phone Simulation</h2>
+          </div>
+          <div class="overlay-quick-controls">
+            <button id="btnToggleDrawer" class="btn btn-sm btn-outline">☰ Menu</button>
+            <button id="btnTriggerOverlay" class="btn btn-sm btn-accent">Lock Screen Alert</button>
+          </div>
+        </div>
+
+        <div class="phone-wrapper">
+          <div class="phone-frame" id="phoneFrame">
+            <!-- Dynamic Island -->
+            <div class="phone-speaker"></div>
+
+            <!-- Side Navigation Drawer -->
+            <div id="sideDrawer" class="side-drawer closed">
+              <div class="drawer-header">
+                <div class="drawer-brand">DAWAII!!</div>
+                <div class="drawer-subtitle">Daily Medicine Companion</div>
+              </div>
+              <div class="drawer-divider"></div>
+              <nav class="drawer-nav">
+                <button class="drawer-item active" data-screen="screenDashboard">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                  Dashboard
+                </button>
+                <button class="drawer-item" data-screen="screenDoctorsAndVisits">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                  Doctors &amp; Visits
+                </button>
+                <button class="drawer-item" data-screen="screenCabinet">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg>
+                  Medicine Cabinet
+                </button>
+                <button class="drawer-item" data-screen="screenRecommendations">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/><circle cx="12" cy="12" r="4"/></svg>
+                  When to Take (AI)
+                </button>
+                <button class="drawer-item" data-screen="screenSetupOverlay">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                  Setup Overlay
+                </button>
+                <button class="drawer-item" data-screen="screenScanner">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83M16.62 12l-5.74 9.94"/></svg>
+                  Scan Medicine (AI)
+                </button>
+                <button class="drawer-item" data-screen="screenCustomize">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="21" y2="21"/><line x1="4" x2="20" y1="14" y2="14"/><line x1="4" x2="20" y1="7" y2="7"/></svg>
+                  Customize
+                </button>
+                <button class="drawer-item" data-screen="screenHowItWorks">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>
+                  How it Works
+                </button>
+              </nav>
+              <div style="padding: 10px 16px; border-top: 1px solid var(--border-color);">
+                <button id="btnCheckAppUpdate" class="btn btn-outline" style="width: 100%; font-size: 12px; padding: 8px 12px; display: flex; align-items: center; justify-content: center; gap: 8px; border-color: rgba(255,183,197,0.3); color: var(--sakura-pink);">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                  <span>Update App / Sync</span>
+                </button>
+              </div>
+              <div style="padding: 14px 16px; border-top: 1px solid var(--border-color); margin-top: auto; display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                  <div style="font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px;">Active Mode</div>
+                  <div id="drawerAuthModeLabel" style="font-size: 12px; font-weight: 600; color: var(--sakura-pink);">Guest</div>
+                </div>
+                <button id="btnSwitchAuthMode" class="btn btn-outline btn-xs" style="padding: 4px 10px; font-size: 11px;">Switch</button>
+              </div>
+            </div>
+            <div id="drawerScrim" class="drawer-scrim hidden"></div>
+
+            <!-- Phone Screen Scaffold -->
+            <div class="phone-screen-scaffold" id="phoneScaffold">
+              <!-- Top App Bar -->
+              <div class="compose-topbar" id="composeTopbar">
+                <button id="btnHamburger" class="hamburger-btn" aria-label="Open menu">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" x2="21" y1="12" y2="12"/><line x1="3" x2="21" y1="6" y2="6"/><line x1="3" x2="21" y1="18" y2="18"/></svg>
+                </button>
+                <div class="topbar-title" id="topbarTitle">Dashboard</div>
+                <div class="topbar-actions-row">
+                  <button id="btnTopReport" class="topbar-action-btn" title="Doctor's Report">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                  </button>
+                  <button id="btnTopScan" class="topbar-action-btn" title="Scan with AI">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Screen 1: Dashboard (Top: Checklist, Middle: Appointment, Bottom: Calendar) -->
+              <div id="screenDashboard" class="compose-screen active">
+                <!-- 1. TOP ELEMENT: Selected Day Header with Day Switcher & Medication Checklist -->
+                <div class="dash-date-header-row" id="dashChecklistHeader">
+                  <div class="dash-day-switcher">
+                    <button id="btnDashPrevDay" class="dash-day-nav-btn" title="Previous Day">‹</button>
+                    <div class="dash-date-titles" id="dashDateClickable" title="Tap to return to Today">
+                      <div class="dash-date-main" id="dashboardDayTitle">Today</div>
+                      <div class="dash-date-sub" id="dashboardDateSub">Tuesday, Sep 29</div>
+                    </div>
+                    <button id="btnDashNextDay" class="dash-day-nav-btn" title="Next Day">›</button>
+                  </div>
+                  <div class="adherence-pill" id="dashboardAdherencePill">2 TO TAKE</div>
+                </div>
+
+                <div class="minimal-checklist-container" id="dashboardChecklist"></div>
+
+                <!-- 2. Minimal Box Grid Calendar & Adherence Legend (MOVED ABOVE DOCTOR APPOINTMENT) -->
+                <div class="box-grid-calendar-card" style="margin-top: 6px;">
+                  <div class="calendar-nav-row">
+                    <button id="btnPrevMonth" class="cal-nav-btn" title="Previous Month">‹</button>
+                    <div class="calendar-month-title" id="calendarMonthTitle">SEPTEMBER 2026</div>
+                    <button id="btnNextMonth" class="cal-nav-btn" title="Next Month">›</button>
+                  </div>
+                  <div class="cal-weekdays-row">
+                    <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+                  </div>
+                  <div class="box-grid-days" id="boxGridDays"></div>
+                </div>
+
+                <div class="adherence-legend">
+                  <div class="legend-chip"><span class="chip-box chip-green"></span> 0 Missed</div>
+                  <div class="legend-chip"><span class="chip-box chip-yellow"></span> Partially Missed</div>
+                  <div class="legend-chip"><span class="chip-box chip-red"></span> All Missed</div>
+                </div>
+
+                <!-- 3. Next Doctor Appointment -->
+                <div id="dashUpcomingSection" style="margin: 20px 0;">
+                  <div class="section-title" style="margin-top: 0; margin-bottom: 8px;">NEXT DOCTOR APPOINTMENT</div>
+                  <div class="appointment-card-preview" id="dashUpcomingCard">
+                    <div class="appt-card-top">
+                      <div>
+                        <div class="doctor-name" id="dashUpcomingDocName">Dr. Rajesh Sharma</div>
+                        <div class="doctor-spec" id="dashUpcomingDocSpec">Cardiologist</div>
+                      </div>
+                      <div class="appt-card-actions">
+                        <button class="appt-action-btn postpone-appt-btn" id="btnDashPostponeAppt" title="Postpone Consultation">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-divider"></div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                      <div>
+                        <div class="appt-datetime" id="dashUpcomingDateTime">Thursday, Oct 8 • 3:30 PM</div>
+                        <div class="appt-location" id="dashUpcomingLoc">Apollo Clinic, Indiranagar, Suite 402</div>
+                      </div>
+                      <button class="btn-mark-attended" id="btnDashMarkAttended">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>MARK ATTENDED</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 4. Export Doctor's Report -->
+                <div class="export-report-card click-to-edit" id="btnExportDoctorReport" style="margin-top: 16px;">
+                  <div class="export-report-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                  </div>
+                  <div style="flex: 1;">
+                    <div class="export-report-title">Export Doctor's Medical Report</div>
+                    <div class="export-report-desc">Choose a date range to generate a PDF report for your doctor.</div>
+                  </div>
+                  <button class="btn btn-sm btn-primary" id="btnTriggerExport">EXPORT PDF</button>
+                </div>
+              </div>
+
+              <!-- Screen 2: Doctors & Visits (Merged My Doctors + Appointments) -->
+              <div id="screenDoctorsAndVisits" class="compose-screen">
+                <div class="screen-header-block" style="margin-bottom: 12px;">
+                  <h2>DOCTORS &amp; VISITS</h2>
+                  <p>Healthcare team directory and upcoming consultations</p>
+                </div>
+
+                <!-- Combined Sub-Tab Switcher: Doctors | Appointments -->
+                <div class="appt-tab-bar" style="margin-bottom: 16px;">
+                  <button class="appt-tab-btn active" id="tabMergedDoctors">My Doctors</button>
+                  <button class="appt-tab-btn" id="tabMergedVisits">Appointments</button>
+                </div>
+
+                <!-- Section A: Doctors Directory -->
+                <div id="viewMergedDoctors">
+                  <div class="section-header-row">
+                    <div>
+                      <div class="section-title" style="margin: 0;">YOUR DOCTORS</div>
+                      <div class="section-sub">Tap any doctor to view their animated medicine tabs</div>
+                    </div>
+                    <button id="btnAddDoctor" class="header-add-btn" title="Add Doctor">+</button>
+                  </div>
+                  <div class="doctors-list" id="doctorsList"></div>
+                </div>
+
+                <!-- Section B: Appointments / Visits -->
+                <div id="viewMergedVisits" class="hidden">
+                  <div class="section-header-row">
+                    <div>
+                      <div class="section-title" style="margin: 0;">DOCTOR VISITS</div>
+                      <div class="section-sub">Upcoming and attended consultations</div>
+                    </div>
+                    <button id="btnAddApptHeader" class="header-add-btn" title="Add Appointment">+</button>
+                  </div>
+                  <div class="appt-tab-bar" style="margin-bottom: 12px;">
+                    <button class="appt-tab-btn active" id="tabUpcoming">Upcoming</button>
+                    <button class="appt-tab-btn" id="tabAttended">Attended</button>
+                  </div>
+                  <div class="appointments-list" id="appointmentsList"></div>
+                </div>
+              </div>
+
+              <!-- Screen 2-Sub: Doctor Details with Animated Medicine Tabs -->
+              <div id="screenDoctorTabs" class="compose-screen">
+                <div class="doctor-tab-header">
+                  <button id="btnBackToDoctors" class="back-circle-btn">←</button>
+                  <div>
+                    <div class="doctor-tab-name" id="tabDoctorName">Dr. Rajesh Sharma</div>
+                    <div class="doctor-tab-spec" id="tabDoctorSpec">Cardiologist</div>
+                  </div>
+                  <button id="btnAddMedForDoc" class="header-add-btn" title="Add Prescription">+</button>
+                </div>
+                <!-- Animated TabRow -->
+                <div class="animated-tabs-track" id="animatedTabsTrack"></div>
+                <!-- Tab Pager Content -->
+                <div class="tab-medicine-content" id="tabMedicineContent"></div>
+              </div>
+
+              <!-- Screen 3: Master Medicine Cabinet -->
+              <div id="screenCabinet" class="compose-screen">
+                <div class="cabinet-tab-bar">
+                  <button class="cabinet-subtab active" id="tabCabinetPrescriptions">All Prescriptions</button>
+                  <button class="cabinet-subtab" id="tabCabinetRecommendations">When to Take (AI)</button>
+                </div>
+                <div class="section-header-row" style="margin-top: 14px;">
+                  <div>
+                    <div class="section-title" style="margin: 0;">MASTER MEDICINE CABINET</div>
+                    <div class="section-sub">All medications across all doctors with photos</div>
+                  </div>
+                  <button id="btnAddMasterMed" class="header-add-btn" title="Add Medicine">+</button>
+                </div>
+                <div class="master-cabinet-list" id="masterCabinetList"></div>
+              </div>
+
+              <!-- Screen 4: Medicine Recommendations (When to Take) -->
+              <div id="screenRecommendations" class="compose-screen">
+                <div class="section-header-row">
+                  <div>
+                    <div class="section-title" style="margin: 0;">WHEN TO TAKE</div>
+                    <div class="section-sub">AI &amp; clinical schedule recommendations</div>
+                  </div>
+                </div>
+
+                <!-- Recommendation Filter Pills -->
+                <div class="rec-filter-pills" id="recFilterPills">
+                  <button class="rec-pill-btn active" data-filter="all">All</button>
+                  <button class="rec-pill-btn" data-filter="morning">🌅 Morning</button>
+                  <button class="rec-pill-btn" data-filter="night">🌙 Night</button>
+                  <button class="rec-pill-btn" data-filter="empty">🥣 Empty Stomach</button>
+                  <button class="rec-pill-btn" data-filter="food">🍽️ After Food</button>
+                </div>
+
+                <!-- List of Recommendation Cards -->
+                <div class="recommendations-container" id="recommendationsList"></div>
+              </div>
+
+              <!-- Screen 5: Smart Scanner (Native In-App Camera + Gemini AI) -->
+              <div id="screenScanner" class="compose-screen">
+                <div class="scanner-header-strip">
+                  <span class="scanner-ai-badge">✨ Powered by Gemini AI Vision &amp; OCR</span>
+                </div>
+                <div class="scanner-viewfinder-card">
+                  <div class="viewfinder-box" id="viewfinderBox">
+                    <video id="scannerVideo" autoplay playsinline muted style="width: 100%; height: 100%; object-fit: cover; border-radius: 18px; display: none;"></video>
+                    <canvas id="scannerCanvas" style="display: none;"></canvas>
+                    <img id="scannerPreviewImg" style="display: none; width: 100%; height: 100%; object-fit: cover; border-radius: 18px;" alt="Captured preview" />
+                    <div class="viewfinder-laser" id="viewfinderLaser"></div>
+                    <div class="viewfinder-hint" id="viewfinderHint">
+                      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/></svg>
+                      <div id="scannerHintText">Align prescription label inside frame</div>
+                    </div>
+                  </div>
+
+                  <div class="scanner-controls-row">
+                    <label class="btn-scan-action-file" title="Upload prescription photo">
+                      <input type="file" id="filePrescriptionUpload" accept="image/*" style="display: none;" />
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                      <span>Upload Photo</span>
+                    </label>
+
+                    <button id="btnCaptureOCR" class="btn-capture-shutter" title="Scan &amp; Decipher with Gemini">
+                      <div class="shutter-inner"></div>
+                    </button>
+
+                    <button id="btnResetScannerView" class="btn-scan-action-file" title="Reset Camera">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                      <span>Reset</span>
+                    </button>
+                  </div>
+
+                  <!-- Scanner Feedback Notice Box -->
+                  <div id="scannerFeedbackMsg" class="scanner-feedback-box hidden"></div>
+
+                  <!-- User Account Gemini API Key Input -->
+                  <div class="scanner-api-key-box" style="margin-top: 14px; background: rgba(20, 18, 23, 0.7); border: 1px solid var(--border-color); border-radius: 14px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <span style="font-size: 12px; font-weight: 600; color: var(--sakura-pink);">🔑 Gemini API Key</span>
+                      <span id="geminiKeyStatus" style="font-size: 10px; color: var(--text-dim);">Multimodal Vision Enabled</span>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                      <input type="password" id="inputGeminiApiKey" class="modal-input" placeholder="Paste your Gemini API key (AIzaSy...)" style="flex: 1; font-size: 12px; padding: 8px 12px;" />
+                      <button type="button" id="btnSaveGeminiKey" class="btn btn-outline btn-sm" style="font-size: 11px; white-space: nowrap;">Save Key</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Screen 6: Customize (Complete Rewrite matching Design System) -->
+              <div id="screenCustomize" class="compose-screen">
+                <div class="screen-header-block">
+                  <h2>CUSTOMIZE</h2>
+                  <p>Tailor display aesthetics, acoustic cues, and safety nets.</p>
+                </div>
+
+                <!-- Category 1: Theme (Two tile tabs: Left = Floral, Right = Minimal) -->
+                <div class="category-card">
+                  <div class="theme-header-divider">
+                    <span class="theme-header-title">THEME</span>
+                    <div class="theme-header-line"></div>
+                  </div>
+
+                  <!-- Theme Tiles Grid: Left = Floral, Right = Minimal -->
+                  <div class="theme-tiles-grid">
+                    <button type="button" class="theme-tile active" id="optSakura" aria-label="Floral Theme">
+                      <div class="theme-tile-dots">
+                        <span class="theme-dot dot-floral-1"></span>
+                        <span class="theme-dot dot-floral-2"></span>
+                      </div>
+                      <div class="theme-tile-label">Floral</div>
+                    </button>
+
+                    <button type="button" class="theme-tile" id="optNormal" aria-label="Minimal Theme">
+                      <div class="theme-tile-dots">
+                        <span class="theme-dot dot-minimal-1"></span>
+                        <span class="theme-dot dot-minimal-2"></span>
+                      </div>
+                      <div class="theme-tile-label">Minimal</div>
+                    </button>
+                  </div>
+
+                  <!-- Wide Box below matching wireframe layout -->
+                  <div class="theme-wide-box" style="margin-top: 14px; background: rgba(20, 18, 23, 0.6); border: 1px solid var(--border-color); border-radius: 16px; padding: 14px 16px;">
+                    <div class="setting-row align-center">
+                      <div>
+                        <div class="sub-setting-title">Time Format</div>
+                        <div class="compose-feature-desc">Clock representation on overlay reminder</div>
+                      </div>
+                      <div class="segmented-control" id="timeFormatSegmented">
+                        <button class="seg-btn active" data-format="12">12hr</button>
+                        <button class="seg-btn" data-format="24">24hr</button>
+                      </div>
+                    </div>
+
+                    <div style="margin-top: 14px; border-top: 1px solid rgba(166, 150, 162, 0.15); padding-top: 12px;">
+                      <div class="sub-setting-title">Overlay Text</div>
+                      <div class="compose-feature-desc">Central prompt displayed on lock-screen reminder</div>
+                      <input type="text" id="inputOverlayText" class="compose-input" value="DAWA!" placeholder="DAWA!" style="margin-top: 8px;" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="category-spacer"></div>
+
+                <!-- Category 2: Lock-Screen Overlay (Enable/Disable, Brighten on Scroll, and Dimness) -->
+                <div class="category-card" id="cardOverlayDimness">
+                  <div class="category-card-header">
+                    <span class="category-card-title">Lock-Screen Overlay</span>
+                    <span class="category-card-desc">Full-screen reminder behavior, illumination triggers, and ambient opacity</span>
+                  </div>
+
+                  <div class="dimness-box" style="margin-top: 14px; background: rgba(20, 18, 23, 0.6); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px;">
+                    <!-- 1. Enable / Disable Lock-Screen Overlay Switch -->
+                    <div class="setting-row align-center">
+                      <div>
+                        <div class="sub-setting-title">Lock-Screen Overlay</div>
+                        <div class="compose-feature-desc">Display full-screen reminder window when medication is due</div>
+                      </div>
+                      <label class="compose-switch">
+                        <input type="checkbox" id="toggleEnableOverlay" checked />
+                        <span class="switch-slider"></span>
+                      </label>
+                    </div>
+
+                    <!-- 2. Turn Up Brightness When Adjusting Scrolling Wheel (On by default) -->
+                    <div class="setting-row align-center" style="margin-top: 16px; border-top: 1px solid rgba(166, 150, 162, 0.15); padding-top: 14px;">
+                      <div>
+                        <div class="sub-setting-title">Brighten on scrolling wheel</div>
+                        <div class="compose-feature-desc">Turn up brightness to 100% when adjusting scrollwheel</div>
+                      </div>
+                      <label class="compose-switch">
+                        <input type="checkbox" id="toggleBrightenOnScroll" checked />
+                        <span class="switch-slider"></span>
+                      </label>
+                    </div>
+
+                    <!-- 3. Ambient Dimness Slider -->
+                    <div style="margin-top: 16px; border-top: 1px solid rgba(166, 150, 162, 0.15); padding-top: 14px;">
+                      <div class="setting-row align-center">
+                        <div>
+                          <div class="sub-setting-title">Initial Dimness Level</div>
+                          <div class="compose-feature-desc">Background ambient opacity before adjusting or tapping</div>
+                        </div>
+                        <span id="txtStartingDimness" class="pink-val">40%</span>
+                      </div>
+                      <input type="range" id="composeDimSlider" min="10" max="95" value="40" class="slim-slider" style="margin-top: 14px;" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="category-spacer"></div>
+
+                <!-- Category 2: Audio & Overlay -->
+                <div class="category-card">
+                  <div class="category-card-header">
+                    <span class="category-card-title">Audio &amp; Overlay</span>
+                    <span class="category-card-desc">Acoustic chimes and trigger timing</span>
+                  </div>
+
+                  <!-- Chime Toggle: Minimal switch -->
+                  <div class="setting-row align-center" style="margin-top: 14px;">
+                    <div>
+                      <div class="sub-setting-title">Audio Chimes</div>
+                      <div class="compose-feature-desc">Enable subtle audio cues for reminders.</div>
+                    </div>
+                    <label class="compose-switch">
+                      <input type="checkbox" id="composeChimeToggle" checked />
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+
+                  <!-- Chime Delay Slider: 0s to 15s -->
+                  <div class="category-subgroup" style="margin-top: 18px;">
+                    <div class="setting-row align-center">
+                      <div>
+                        <div class="sub-setting-title">Chime Delay</div>
+                        <div class="compose-feature-desc">Set seconds to wait before playing audio.</div>
+                      </div>
+                      <span id="txtChimeDelay" class="pink-val">3s</span>
+                    </div>
+                    <input type="range" id="composeChimeDelaySlider" min="0" max="15" value="3" class="slim-slider" style="margin-top: 12px;" />
+                  </div>
+
+                  <!-- Conditional sub-options -->
+                  <div id="chimeSubToggles" class="conditional-sub-section" style="margin-top: 16px;">
+                    <div class="setting-row align-center" style="margin-bottom: 14px;">
+                      <div>
+                        <div class="sub-setting-title">Lock-Screen Overlay Chime</div>
+                        <div class="compose-feature-desc">Play gentle chime when overlay awakens</div>
+                      </div>
+                      <label class="compose-switch">
+                        <input type="checkbox" id="toggleChimeOverlay" checked />
+                        <span class="switch-slider"></span>
+                      </label>
+                    </div>
+                    <div class="setting-row align-center">
+                      <div>
+                        <div class="sub-setting-title">Standard Notification Sound</div>
+                        <div class="compose-feature-desc">Play chime during regular system alerts</div>
+                      </div>
+                      <label class="compose-switch">
+                        <input type="checkbox" id="toggleChimeNotif" checked />
+                        <span class="switch-slider"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="category-spacer"></div>
+
+                <!-- Category 3: Controls & Caregiver -->
+                <div class="category-card">
+                  <div class="category-card-header">
+                    <span class="category-card-title">Controls &amp; Caregiver</span>
+                    <span class="category-card-desc">Lock-screen gesture shortcuts and emergency safety net</span>
+                  </div>
+
+                  <!-- Gesture Assignments -->
+                  <div class="category-subgroup" style="margin-top: 14px;">
+                    <div class="sub-setting-title" style="margin-bottom: 4px;">Physical Gestures</div>
+                    <div class="compose-feature-desc">Assign physical taps to specific actions.</div>
+
+                    <div style="margin-top: 14px; display: flex; flex-direction: column; gap: 14px;">
+                      <div class="setting-column">
+                        <div class="sub-setting-title" style="font-size: 13px;">Double Tap</div>
+                        <div class="compose-feature-desc">Action when double-tapping overlay screen</div>
+                        <select id="selectDoubleTap" class="compose-select" style="margin-top: 6px;">
+                          <option value="Unlock Phone" selected>Unlock Phone</option>
+                          <option value="Mark Taken">Mark Taken</option>
+                          <option value="None">None</option>
+                        </select>
+                      </div>
+
+                      <div class="setting-column">
+                        <div class="sub-setting-title" style="font-size: 13px;">Triple Tap</div>
+                        <div class="compose-feature-desc">Action when triple-tapping overlay screen</div>
+                        <select id="selectTripleTap" class="compose-select" style="margin-top: 6px;">
+                          <option value="Unlock Phone">Unlock Phone</option>
+                          <option value="Mark Taken" selected>Mark Taken</option>
+                          <option value="None">None</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Caregiver SMS Settings -->
+                  <div class="category-subgroup" style="margin-top: 20px; border-top: 1px solid rgba(166, 150, 162, 0.15); padding-top: 16px;">
+                    <div class="setting-row align-center">
+                      <div>
+                        <div class="sub-setting-title">Caregiver Contact</div>
+                        <div class="compose-feature-desc">Sends SMS if a dose is missed: "(time of the day) (medication name) missed at (time)"</div>
+                      </div>
+                      <label class="compose-switch">
+                        <input type="checkbox" id="toggleCaregiverSms" checked />
+                        <span class="switch-slider"></span>
+                      </label>
+                    </div>
+                    <div style="margin-top: 12px;">
+                      <input type="tel" id="inputCaregiverPhone" class="compose-input" placeholder="9692298485" value="9692298485" maxlength="15" />
+                      <div id="caregiverPhoneError" class="phone-error-msg" style="color: #FF6B6B; font-size: 12px; margin-top: 6px; display: none; font-weight: 500;">Incorrect number</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Screen 7: How it Works (Complete Typographic Hierarchy) -->
+              <div id="screenHowItWorks" class="compose-screen">
+                <div class="screen-header-block">
+                  <h2>HOW IT WORKS</h2>
+                  <p>Gentle interactions, lock-screen rituals, and safety nets.</p>
+                </div>
+
+                <div class="how-section-card">
+                  <div class="how-card-header">
+                    <span class="how-card-icon">🔒</span>
+                    <span class="how-card-title">The Lock Screen Overlay</span>
+                  </div>
+                  <div class="how-card-desc">
+                    DAWAII gently awakens over your lock screen 15 minutes after a scheduled dose if not yet recorded. It opens in a calm, dimmed state with an optional gentle chime to draw your attention without loud alarms.
+                  </div>
+                </div>
+
+                <div class="how-section-card">
+                  <div class="how-card-header">
+                    <span class="how-card-icon">👆</span>
+                    <span class="how-card-title">Single Tap · Wake &amp; Focus</span>
+                  </div>
+                  <div class="how-card-desc">
+                    A single gentle tap anywhere on the screen brings the ambient display to full clarity and activates the postponement scrollwheel.
+                  </div>
+                </div>
+
+                <div class="how-section-card">
+                  <div class="how-card-header">
+                    <span class="how-card-icon">↔️</span>
+                    <span class="how-card-title">Scroll &amp; Confirm · Postpone</span>
+                  </div>
+                  <div class="how-card-desc">
+                    Slide the horizontal wheel to select a delay (from 5 to 60 minutes). Tap the minimal Confirm button to reschedule your reminder.
+                  </div>
+                </div>
+
+                <div class="how-section-card">
+                  <div class="how-card-header">
+                    <span class="how-card-icon">✌️</span>
+                    <span class="how-card-title">Double Tap · Unlock / Dismiss</span>
+                  </div>
+                  <div class="how-card-desc">
+                    Double-tapping instantly dismisses the ambient overlay, returning you straight to your phone's normal system lock screen.
+                  </div>
+                </div>
+
+                <div class="how-section-card">
+                  <div class="how-card-header">
+                    <span class="how-card-icon">✨</span>
+                    <span class="how-card-title">Triple Tap · Mark Taken</span>
+                  </div>
+                  <div class="how-card-desc">
+                    Triple-tapping acknowledges your dose as taken immediately in your daily log, clearing all pending reminder sequences.
+                  </div>
+                </div>
+
+                <div class="how-section-card">
+                  <div class="how-card-header">
+                    <span class="how-card-icon">🌙</span>
+                    <span class="how-card-title">Night Shift Smart Window</span>
+                  </div>
+                  <div class="how-card-desc">
+                    Between 12:00 AM and 2:00 AM, if you turn your screen off to rest, DAWAII sounds two soft chimes. If the device remains asleep for 1 hour, it peacefully cancels the notification so your sleep is never disturbed.
+                  </div>
+                </div>
+
+                <div class="how-section-card">
+                  <div class="how-card-header">
+                    <span class="how-card-icon">📱</span>
+                    <span class="how-card-title">Caregiver SMS Sync</span>
+                  </div>
+                  <div class="how-card-desc">
+                    When enabled, if an evening window expires or a scheduled dose remains unacknowledged, DAWAII sends an automated SMS alert to your designated contact.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Screen: Setup Overlay & Timing Priority -->
+              <div id="screenSetupOverlay" class="compose-screen">
+                <div class="screen-header-block">
+                  <h2>SETUP OVERLAY</h2>
+                  <p>Medication timing priority and lock-screen activation</p>
+                </div>
+
+                <div class="setup-overlay-container">
+
+
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
+                    <div style="font-size: 13px; font-weight: 600; color: var(--text-main);">Medications &amp; Scheduled Times</div>
+                    <span id="setupMedsCount" style="font-size: 11px; color: var(--text-dim);">3 Scheduled</span>
+                  </div>
+
+                  <div id="setupOverlayMedsList" style="display: flex; flex-direction: column; gap: 8px;"></div>
+
+                  <div class="overlay-action-buttons">
+                    <button type="button" id="btnTestLockScreenNow" class="btn btn-primary" style="width: 100%; padding: 12px; font-weight: 600;">
+                      ✨ Test Lock Screen Overlay Now
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Delete Confirmation Modal -->
+            <div id="deleteConfirmModal" class="animated-modal-backdrop hidden">
+              <div class="animated-modal-card" style="max-width: 310px; text-align: center; padding: 22px 20px;">
+                <div style="font-size: 30px; margin-bottom: 8px;">🗑️</div>
+                <div class="modal-card-title" id="deleteConfirmTitle" style="color: var(--sakura-pink); font-size: 17px; margin-bottom: 6px;">Remove Item?</div>
+                <div class="modal-card-subtitle" id="deleteConfirmMessage" style="color: var(--text-dim); font-size: 13px; line-height: 1.4; margin-bottom: 18px;">
+                  Are you sure you want to remove this item? This action cannot be undone.
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                  <button id="btnCancelDelete" class="btn btn-outline btn-sm" style="flex: 1; padding: 8px 12px;">Cancel</button>
+                  <button id="btnConfirmDelete" class="btn btn-sm" style="flex: 1; padding: 8px 12px; background: #e55353; border: 1px solid #e55353; color: #fff; font-weight: 600;">Remove</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Custom Reusable Animated Edit Modal (Scale-Up + Fade-In) -->
+            <div id="animatedModalOverlay" class="animated-modal-backdrop hidden">
+              <div class="animated-modal-card" id="animatedModalCard">
+                <div class="modal-card-header">
+                  <div>
+                    <div class="modal-card-title" id="modalTitle">Edit Item</div>
+                    <div class="modal-card-subtitle" id="modalSubtitle">Update details below</div>
+                  </div>
+                  <button id="btnModalClose" class="modal-close-icon">✕</button>
+                </div>
+                <div class="modal-card-body" id="modalBody"></div>
+                <div class="modal-card-footer">
+                  <button id="btnModalCancel" class="btn btn-outline btn-sm">Cancel</button>
+                  <button id="btnModalSave" class="btn btn-primary btn-sm">Done</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Normal Screen Toast Feedback HUD (strictly outside lock-screen overlay) -->
+            <div class="gesture-feedback" id="gestureFeedback"></div>
+
+            <!-- App Launch Buffering Screen with Rounded Solid Upscaled Card -->
+            <div id="appBufferingScreen" class="app-buffering-screen">
+              <img src="icon-512.png" alt="Dawaii" class="buffering-card-img" />
+            </div>
+
+            <!-- App Landing Login Page (Guest Mode vs Developer Mode) -->
+            <div id="loginGatekeeperModal" class="auth-gatekeeper-backdrop">
+              <div class="auth-card">
+                <div class="auth-logo-badge">
+                  <img src="capsule_icon.png" alt="Dawaii Capsule" class="auth-capsule-img" />
+                </div>
+                <div class="auth-title">DAWAII</div>
+                <div class="auth-subtitle">Select mode to enter application</div>
+
+                <div class="auth-tabs">
+                  <button type="button" class="auth-tab-btn active" id="tabModeGuest">Guest Mode</button>
+                  <button type="button" class="auth-tab-btn" id="tabModeDev">Developer</button>
+                </div>
+
+                <!-- Guest Mode View -->
+                <div id="viewAuthGuest">
+                  <div style="font-size: 12px; color: var(--text-dim); line-height: 1.5; margin-bottom: 18px;">
+                    Start using Dawaii immediately with private local medicine tracking and customizable lock screen overlay.
+                  </div>
+                  <button type="button" id="btnContinueGuest" class="btn btn-primary" style="width: 100%; padding: 11px; font-weight: 600;">
+                    Continue as Guest
+                  </button>
+                </div>
+
+                <!-- Developer Mode View -->
+                <div id="viewAuthDev" class="hidden">
+                  <div class="auth-input-group">
+                    <label for="inputDevUser">Username</label>
+                    <input type="text" id="inputDevUser" class="auth-input" placeholder="" autocomplete="off" />
+                  </div>
+                  <div class="auth-input-group">
+                    <label for="inputDevPass">Password</label>
+                    <input type="password" id="inputDevPass" class="auth-input" placeholder="" />
+                  </div>
+                  <div id="devAuthError" class="auth-error-msg"></div>
+                  <button type="button" id="btnLoginDev" class="btn btn-primary" style="width: 100%; padding: 11px; font-weight: 600; margin-top: 4px;">
+                    Login as Developer
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dedicated Developer Greeting Screen with Sakura Blossom Rain -->
+            <div id="developerGreetingScreen" class="dev-greeting-screen hidden">
+              <div class="falling-petals-container" id="fallingPetalsContainer"></div>
+              <div class="greeting-content">
+                <div class="greeting-flower-icon">🌸</div>
+                <div class="greeting-title">HIII KRISHH!!</div>
+              </div>
+            </div>
+
+            <!-- SYSTEM_ALERT_WINDOW Full Screen Lock Screen Overlay (image_a52895.png replication) -->
+            <div id="dawaiiOverlay" class="dawaii-overlay sakura-theme dim-state hidden">
+              <!-- Top floral garland: stretched to cover left and right edge of the screen at the top -->
+              <div class="foliage foliage-top-left" id="foliageTL">
+                <img src="bg_floral_overlay.png" class="foliage-img foliage-tl-img" alt="Floral Overlay Top" />
+              </div>
+
+              <!-- Bottom floral garland: stretched to cover left and right edge of the screen at the bottom -->
+              <div class="foliage foliage-bottom-right" id="foliageBR">
+                <img src="bg_floral_overlay.png" class="foliage-img foliage-br-img" alt="Floral Overlay Bottom" />
+              </div>
+
+              <!-- Center stack with strict vertical safe padding: zero floral overlap -->
+              <div class="overlay-center-stack">
+                <div class="digital-clock-wrap">
+                  <span class="digital-clock" id="overlayClock">11:30</span>
+                  <span class="digital-ampm" id="overlayAmPm">PM</span>
+                </div>
+                <div class="dawaii-title" id="overlayPrompt">DAWA!</div>
+
+                <!-- Snapping Ruler Scrollwheel -->
+                <div class="wheel-container">
+                  <div class="wheel-ruler-ticks top-ticks"></div>
+                  <div class="wheel-center-indicator"></div>
+                  <div class="wheel-track" id="wheelTrack"></div>
+                  <div class="wheel-ruler-ticks bottom-ticks"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Interactive App State, Controls & Code -->
+      <section class="controls-panel">
+        <div class="panel-tabs">
+          <button class="tab-btn active" data-tab="tabOverview">Screens &amp; Navigation</button>
+          <button class="tab-btn" data-tab="tabDatabase">Room Database</button>
+          <button class="tab-btn" data-tab="tabNightShift">Night Shift Simulator</button>
+        </div>
+
+        <div class="tab-content active" id="tabOverview">
+          <div class="settings-card">
+            <h3>Quick Screen Switcher</h3>
+            <div class="quick-nav-grid">
+              <button class="btn btn-outline nav-quick-btn" data-target="screenDashboard">Dashboard</button>
+              <button class="btn btn-outline nav-quick-btn" data-target="screenDoctorsAndVisits">Doctors &amp; Visits</button>
+              <button class="btn btn-outline nav-quick-btn" data-target="screenCabinet">Medicine Cabinet</button>
+              <button class="btn btn-outline nav-quick-btn" data-target="screenScanner">Scan Medicine (AI)</button>
+              <button class="btn btn-outline nav-quick-btn" data-target="screenCustomize">Customize</button>
+              <button class="btn btn-outline nav-quick-btn" data-target="screenHowItWorks">How it Works</button>
+            </div>
+
+            <h3 style="margin-top: 24px;">Test The Unignorable Overlay</h3>
+            <p class="desc" style="color: var(--text-dim); font-size: 13px; margin-bottom: 12px;">
+              Triggers the exact full-screen lock screen overlay with floral foliage, chime sound, and muscle-memory gestures.
+            </p>
+            <button id="btnLaunchOverlayBig" class="btn btn-primary" style="width: 100%;">
+              Trigger Lock Screen Alert Now (DAWAII!!)
+            </button>
+          </div>
+        </div>
+
+        <div class="tab-content" id="tabDatabase">
+          <div class="db-card">
+            <div class="db-header-actions">
+              <h3>Live Room Database Records</h3>
+              <button id="btnClearLogs" class="btn btn-outline btn-sm">Reset</button>
+            </div>
+            <div class="table-container">
+              <table class="db-table">
+                <thead>
+                  <tr>
+                    <th>Log ID</th>
+                    <th>Medicine</th>
+                    <th>Scheduled</th>
+                    <th>Action Time</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="dbTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content" id="tabNightShift">
+          <div class="nightshift-card">
+            <h3>Night Shift Mode Simulation</h3>
+            <div class="simulator-actions">
+              <button id="btnSimScreenOff" class="btn btn-accent">Simulate Screen OFF</button>
+              <button id="btnSimScreenOn" class="btn btn-primary">Simulate Screen ON</button>
+              <button id="btnSimQuietCancel" class="btn btn-outline">Simulate 1hr Quiet Cancel</button>
+            </div>
+            <div class="terminal-log" id="nightShiftLogs">
+              <div class="log-line system">[NIGHT_SHIFT] Active window: 12:00 AM - 2:00 AM. Listening for screen events.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  <!-- Native In-App Camera Viewfinder Modal -->
+  <div id="inAppCameraModal" class="modal-backdrop hidden">
+    <div class="modal-card camera-modal-card">
+      <div class="camera-modal-header">
+        <button id="btnCloseCameraModal" class="back-circle-btn">✕</button>
+        <div class="camera-title">IN-APP CAMERA</div>
+        <div style="width: 32px;"></div>
+      </div>
+      <div class="in-app-camera-frame">
+        <video id="cabinetCameraVideo" autoplay playsinline muted></video>
+        <canvas id="cabinetCameraCanvas" style="display:none;"></canvas>
+        <div class="camera-reticle">
+          <div class="reticle-hint">ALIGN MEDICINE CONTAINER</div>
+        </div>
+      </div>
+      <div class="camera-shutter-container">
+        <button id="btnCabinetShutter" class="btn-capture-shutter" title="Snap Photo">
+          <div class="shutter-inner"></div>
+        </button>
+      </div>
+    </div>
+  <!-- Doctor's Medical PDF Report Date Range Modal -->
+  <div id="doctorReportModal" class="animated-modal-backdrop hidden">
+    <div class="animated-modal-card" style="max-width: 440px; padding: 22px;">
+      <div class="modal-card-header">
+        <div>
+          <div class="modal-card-title">Doctor's Medical Report</div>
+          <div class="modal-card-subtitle">Choose date range & generate clinical adherence report</div>
+        </div>
+        <button id="btnCloseReportModal" class="modal-close-icon">✕</button>
+      </div>
+
+      <div class="modal-card-body" style="padding: 12px 0 0 0;">
+        <!-- Quick Presets -->
+        <label class="compose-label" style="margin-bottom: 6px;">QUICK RANGE</label>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px;">
+          <button type="button" class="preset-chip" data-days="7">Last 7 Days</button>
+          <button type="button" class="preset-chip" data-days="14">Last 14 Days</button>
+          <button type="button" class="preset-chip active" data-days="30">Last 30 Days</button>
+          <button type="button" class="preset-chip" data-days="90">Last 90 Days</button>
+          <button type="button" class="preset-chip" data-days="month">This Month</button>
+        </div>
+
+        <!-- Custom Date Range -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+          <div>
+            <label class="compose-label" for="reportStartDate">FROM DATE</label>
+            <input type="date" id="reportStartDate" class="compose-input" style="font-size: 13px; padding: 8px 10px;">
+          </div>
+          <div>
+            <label class="compose-label" for="reportEndDate">TO DATE</label>
+            <input type="date" id="reportEndDate" class="compose-input" style="font-size: 13px; padding: 8px 10px;">
+          </div>
+        </div>
+
+        <!-- Live Adherence Preview Stats -->
+        <div class="report-stats-grid">
+          <div>
+            <div class="report-stat-num" id="reportStatDays">30</div>
+            <div class="report-stat-lbl">Days</div>
+          </div>
+          <div>
+            <div class="report-stat-num" id="reportStatRate" style="color: #A8E6CF;">94%</div>
+            <div class="report-stat-lbl">Adherence</div>
+          </div>
+          <div>
+            <div class="report-stat-num" id="reportStatTaken" style="color: #A8E6CF;">112</div>
+            <div class="report-stat-lbl">Taken</div>
+          </div>
+          <div>
+            <div class="report-stat-num" id="reportStatMissed" style="color: #FF8B94;">7</div>
+            <div class="report-stat-lbl">Missed</div>
+          </div>
+        </div>
+
+        <div style="font-size: 11px; color: var(--text-dim); margin-bottom: 14px; line-height: 1.4;">
+          Includes doctor consultations (Dr. Rajesh Sharma, Dr. Ananya Iyer), full dose timestamps, pill quantities, and missed alert records.
+        </div>
+      </div>
+
+      <div class="modal-card-footer" style="display: flex; gap: 8px; justify-content: flex-end; padding-top: 10px;">
+        <button class="btn btn-outline" id="btnExportCSV">Download CSV</button>
+        <button class="btn btn-primary" id="btnPrintDoctorPDF">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px;"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Print / PDF Report
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="client.js"></script>
+  <script>
+    // PWA Service Worker Registration & Chrome Install Banner
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch((err) => {
+          console.log('Service Worker registration error:', err);
+        });
+      });
+    }
+
+    let deferredInstallPrompt = null;
+    const btnInstallPWA = document.getElementById('btnInstallPWA');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // Prevent mini-infobar on mobile so native banner / custom trigger handles it
+      e.preventDefault();
+      deferredInstallPrompt = e;
+      if (btnInstallPWA) {
+        btnInstallPWA.classList.remove('hidden');
+        btnInstallPWA.addEventListener('click', async () => {
+          btnInstallPWA.classList.add('hidden');
+          deferredInstallPrompt.prompt();
+          const choiceResult = await deferredInstallPrompt.userChoice;
+          console.log(`User choice: ${choiceResult.outcome}`);
+          deferredInstallPrompt = null;
+        });
+      }
+    });
+
+    window.addEventListener('appinstalled', () => {
+      if (btnInstallPWA) btnInstallPWA.classList.add('hidden');
+      console.log('Dawaii PWA installed successfully');
+    });
+  </script>
+</body>
+</html>

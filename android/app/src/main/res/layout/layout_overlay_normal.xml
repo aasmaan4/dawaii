@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/overlayRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/normal_bg"
+    android:alpha="0.4"
+    android:keepScreenOn="true">
+
+    <!-- Centered Vertical Content Stack matching reference spatial arrangement -->
+    <LinearLayout
+        android:id="@+id/centerStack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Date Header -->
+        <TextView
+            android:id="@+id/tvOverlayDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:layout_marginBottom="6dp"
+            android:text="OCTOBER 1"
+            android:textColor="@color/normal_text_primary"
+            android:alpha="0.85"
+            android:textSize="13sp"
+            android:fontFamily="@font/bodoni"
+            android:letterSpacing="0.28"
+            tools:text="OCTOBER 1" />
+
+        <!-- Clock Stack: Tall Bodoni Serif with AM/PM -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextClock
+                android:id="@+id/digitalClockTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:format12Hour="h:mm"
+                android:format24Hour="HH:mm"
+                android:textColor="@color/normal_text_primary"
+                android:textSize="68sp"
+                android:fontFamily="@font/bodoni"
+                android:letterSpacing="0.04"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:includeFontPadding="false"
+                tools:text="11:30" />
+
+            <TextClock
+                android:id="@+id/digitalClockAmPm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:format12Hour="a"
+                android:format24Hour=""
+                android:textColor="@color/normal_text_primary"
+                android:textSize="22sp"
+                android:fontFamily="@font/bodoni"
+                android:letterSpacing="0.08"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:includeFontPadding="false"
+                tools:text="PM" />
+        </LinearLayout>
+
+        <!-- Middle Dynamic Text -->
+        <TextView
+            android:id="@+id/tvOverlayPrompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="32dp"
+            android:text="DAWA!"
+            android:textColor="@color/normal_text_primary"
+            android:textSize="20sp"
+            android:fontFamily="@font/bodoni"
+            android:letterSpacing="0.22"
+            tools:text="DAWA!" />
+
+        <!-- Snapping Ruler Scrollwheel -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvScrollWheel"
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:orientation="horizontal"
+            android:clipToPadding="false"
+            android:overScrollMode="never" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

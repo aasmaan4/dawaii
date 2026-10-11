@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0E0B0D"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DAWAII!! SETTINGS"
+            android:textColor="#FFB7C5"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:fontFamily="serif"
+            android:letterSpacing="0.1"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Preview / Test Overlay Action Button -->
+        <Button
+            android:id="@+id/btnTestOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Trigger Test Overlay Now"
+            android:backgroundTint="#FFB7C5"
+            android:textColor="#0E0B0D"
+            android:textStyle="bold"
+            android:layout_marginBottom="28dp" />
+
+        <!-- 1. Visuals & Themes Header with Horizontal Divider Line -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="14dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="THEME"
+                android:textColor="#7D788C"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.16" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#26A696B4"
+                android:layout_marginStart="14dp" />
+        </LinearLayout>
+
+        <RadioGroup
+            android:id="@+id/rgTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+
+            <RadioButton
+                android:id="@+id/rbSakura"
+                android:layout_width="0dp"
+                android:layout_height="88dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="7dp"
+                android:button="@null"
+                android:background="@drawable/selector_theme_tile_floral"
+                android:drawableTop="@drawable/ic_dots_floral"
+                android:drawablePadding="14dp"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="14dp"
+                android:gravity="bottom|start"
+                android:text="Floral"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:id="@+id/rbNormal"
+                android:layout_width="0dp"
+                android:layout_height="88dp"
+                android:layout_weight="1"
+                android:layout_marginStart="7dp"
+                android:button="@null"
+                android:background="@drawable/selector_theme_tile_minimal"
+                android:drawableTop="@drawable/ic_dots_minimal"
+                android:drawablePadding="14dp"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="14dp"
+                android:gravity="bottom|start"
+                android:text="Minimal"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </RadioGroup>
+
+        <Switch
+            android:id="@+id/switchEnableOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enable Lock-Screen Overlay"
+            android:textColor="#FFFFFF"
+            android:checked="true"
+            android:layout_marginBottom="12dp" />
+
+        <Switch
+            android:id="@+id/switchBrightenOnScroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Brighten on Scrollwheel"
+            android:textColor="#FFFFFF"
+            android:checked="true"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/tvDimnessLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Initial Dimness Opacity: 40%"
+            android:textColor="#CCCCCC"
+            android:textSize="13sp" />
+
+        <SeekBar
+            android:id="@+id/sbDimness"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="40"
+            android:progressTint="#FFB7C5"
+            android:thumbTint="#FFB7C5"
+            android:layout_marginBottom="28dp" />
+
+        <!-- 2. Audio Chime -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AUDIO CHIME"
+            android:textColor="#FAD2E1"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.08"
+            android:layout_marginBottom="12dp" />
+
+        <Switch
+            android:id="@+id/switchChime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Chime"
+            android:textColor="#FFFFFF"
+            android:thumbTint="#FFB7C5"
+            android:trackTint="#80FFB7C5"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:id="@+id/tvChimeDelayLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chime Delay: 3 seconds"
+            android:textColor="#CCCCCC"
+            android:textSize="13sp" />
+
+        <SeekBar
+            android:id="@+id/sbChimeDelay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="10"
+            android:progress="3"
+            android:progressTint="#FFB7C5"
+            android:thumbTint="#FFB7C5"
+            android:layout_marginBottom="28dp" />
+
+        <!-- 3. Muscle Memory Gestures -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GESTURE REMAPPING"
+            android:textColor="#FAD2E1"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.08"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Double Tap Action"
+            android:textColor="#AAAAAA"
+            android:textSize="12sp" />
+
+        <Spinner
+            android:id="@+id/spDoubleTap"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#201C22"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Triple Tap Action"
+            android:textColor="#AAAAAA"
+            android:textSize="12sp" />
+
+        <Spinner
+            android:id="@+id/spTripleTap"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#201C22"
+            android:layout_marginBottom="28dp" />
+
+        <!-- 4. Scrollwheel Range -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SCROLLWHEEL CONFIGURATION"
+            android:textColor="#FAD2E1"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.08"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:id="@+id/tvWheelRangeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Range: 5 to 60 mins (Step: 5m)"
+            android:textColor="#CCCCCC"
+            android:textSize="13sp"
+            android:layout_marginBottom="28dp" />
+
+        <!-- 5. Night Shift Window -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NIGHT SHIFT SCHEDULING"
+            android:textColor="#FAD2E1"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.08"
+            android:layout_marginBottom="12dp" />
+
+        <Switch
+            android:id="@+id/switchNightShift"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enable Night Shift Screen-Off Triggers"
+            android:textColor="#FFFFFF"
+            android:thumbTint="#FFB7C5"
+            android:trackTint="#80FFB7C5"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Active Window: 12:00 AM - 2:00 AM\nAuto Quiet-Cancel: 1 hour post-window (3:00 AM)"
+            android:textColor="#888888"
+            android:textSize="12sp"
+            android:layout_marginBottom="36dp" />
+
+    </LinearLayout>
+</ScrollView>

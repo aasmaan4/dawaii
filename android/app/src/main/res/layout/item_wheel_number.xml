@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/wheelItemRoot"
+    android:layout_width="90dp"
+    android:layout_height="96dp"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:clipChildren="false">
+
+    <!-- Top Ruler Track & Ticks -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="12dp">
+        
+        <!-- Faint Top Horizontal Baseline -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.75dp"
+            android:layout_alignParentTop="true"
+            android:background="#33FFB7C5" />
+
+        <!-- 5 Ticks across the 90dp width (0, 18, 36, 54, 72, 90dp) -->
+        <!-- Center Major Tick (under the number) -->
+        <View
+            android:id="@+id/tickTopCenter"
+            android:layout_width="1.5dp"
+            android:layout_height="8dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="#99FFB7C5" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="4.5dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="18dp"
+            android:background="#4DFFB7C5" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="4.5dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="36dp"
+            android:background="#4DFFB7C5" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="4.5dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="54dp"
+            android:background="#4DFFB7C5" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="4.5dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="72dp"
+            android:background="#4DFFB7C5" />
+    </RelativeLayout>
+
+    <!-- Center: Number in Tall Serif Typography -->
+    <TextView
+        android:id="@+id/tvWheelNumber"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="15"
+        android:textSize="38sp"
+        android:textColor="@color/sakura_pink_primary"
+        android:fontFamily="@font/bodoni"
+        android:includeFontPadding="false"
+        android:alpha="0.35"
+        android:scaleX="0.75"
+        android:scaleY="0.75" />
+
+    <!-- Bottom Ruler Track & Ticks -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="12dp">
+        
+        <!-- Faint Bottom Horizontal Baseline -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.75dp"
+            android:layout_alignParentBottom="true"
+            android:background="#33FFB7C5" />
+
+        <!-- Center Major Tick -->
+        <View
+            android:id="@+id/tickBottomCenter"
+            android:layout_width="1.5dp"
+            android:layout_height="8dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="#99FFB7C5" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="4.5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="18dp"
+            android:background="#4DFFB7C5" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="4.5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="36dp"
+            android:background="#4DFFB7C5" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="4.5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="54dp"
+            android:background="#4DFFB7C5" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="4.5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="72dp"
+            android:background="#4DFFB7C5" />
+    </RelativeLayout>
+</LinearLayout>
