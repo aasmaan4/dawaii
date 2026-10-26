@@ -1,0 +1,11 @@
+{
+  "name": "dawaii",
+  "version": "2.4.7",
+  "private": true,
+  "description": "Dawaii - Medical Reminder & Prescription AI Assistant",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "node -e \"console.log('Build OK')\""
+  }
+}

@@ -1,7 +1,7 @@
 {
-  "versionCode": 26,
-  "versionName": "2.4.6",
-  "version": "2.4.6",
+  "versionCode": 27,
+  "versionName": "2.4.7",
+  "version": "2.4.7",
   "apkUrl": "https://dawiiii.vercel.app/dawaii.apk",
-  "releaseNotes": "App update feedback: confirms when updated with version display, and notifies when already on the latest version."
+  "releaseNotes": "v2.4.7: Functional overlay & notification toggles, upfront prescription image upload in AI scanner, and fixed UI button overlap."
 }

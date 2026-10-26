@@ -12,8 +12,8 @@ android {
         applicationId = "com.dawaii.app"
         minSdk = 21
         targetSdk = 34
-        versionCode = 26
-        versionName = "2.4.6"
+        versionCode = 27
+        versionName = "2.4.7"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

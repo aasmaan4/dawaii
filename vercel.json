@@ -1,0 +1,11 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/api/sync", "destination": "/api/sync.js" },
+    { "source": "/api/gemini-scan", "destination": "/api/gemini-scan.js" },
+    { "source": "/version.json", "destination": "/web/version.json" },
+    { "source": "/dawaii.apk", "destination": "/web/dawaii.apk" },
+    { "source": "/", "destination": "/web/index.html" },
+    { "source": "/:path*", "destination": "/web/:path*" }
+  ]
+}

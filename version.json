@@ -1,0 +1,7 @@
+{
+  "versionCode": 27,
+  "versionName": "2.4.7",
+  "version": "2.4.7",
+  "apkUrl": "https://dawiiii.vercel.app/dawaii.apk",
+  "releaseNotes": "v2.4.7: Functional overlay & notification toggles, upfront prescription image upload in AI scanner, and fixed UI button overlap."
+}
