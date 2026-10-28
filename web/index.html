@@ -111,10 +111,9 @@
               </div>
               <div style="padding: 14px 16px; border-top: 1px solid var(--border-color); margin-top: auto; display: flex; align-items: center; justify-content: space-between;">
                 <div>
-                  <div style="font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px;">Active Mode</div>
-                  <div id="drawerAuthModeLabel" style="font-size: 12px; font-weight: 600; color: var(--sakura-pink);">Guest</div>
+                  <div style="font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px;">Dawaii App</div>
+                  <div style="font-size: 12px; font-weight: 600; color: var(--sakura-pink);">v2.4.7</div>
                 </div>
-                <button id="btnSwitchAuthMode" class="btn btn-outline btn-xs" style="padding: 4px 10px; font-size: 11px;">Switch</button>
               </div>
             </div>
             <div id="drawerScrim" class="drawer-scrim hidden"></div>
@@ -753,56 +752,7 @@
               <img src="icon-512.png" alt="Dawaii" class="buffering-card-img" />
             </div>
 
-            <!-- App Landing Login Page (Guest Mode vs Developer Mode) -->
-            <div id="loginGatekeeperModal" class="auth-gatekeeper-backdrop">
-              <div class="auth-card">
-                <div class="auth-logo-badge">
-                  <img src="capsule_icon.png" alt="Dawaii Capsule" class="auth-capsule-img" />
-                </div>
-                <div class="auth-title">DAWAII</div>
-                <div class="auth-subtitle">Select mode to enter application</div>
 
-                <div class="auth-tabs">
-                  <button type="button" class="auth-tab-btn active" id="tabModeGuest">Guest Mode</button>
-                  <button type="button" class="auth-tab-btn" id="tabModeDev">Developer</button>
-                </div>
-
-                <!-- Guest Mode View -->
-                <div id="viewAuthGuest">
-                  <div style="font-size: 12px; color: var(--text-dim); line-height: 1.5; margin-bottom: 18px;">
-                    Start using Dawaii immediately with private local medicine tracking and customizable lock screen overlay.
-                  </div>
-                  <button type="button" id="btnContinueGuest" class="btn btn-primary" style="width: 100%; padding: 11px; font-weight: 600;">
-                    Continue as Guest
-                  </button>
-                </div>
-
-                <!-- Developer Mode View -->
-                <div id="viewAuthDev" class="hidden">
-                  <div class="auth-input-group">
-                    <label for="inputDevUser">Username</label>
-                    <input type="text" id="inputDevUser" class="auth-input" placeholder="" autocomplete="off" />
-                  </div>
-                  <div class="auth-input-group">
-                    <label for="inputDevPass">Password</label>
-                    <input type="password" id="inputDevPass" class="auth-input" placeholder="" />
-                  </div>
-                  <div id="devAuthError" class="auth-error-msg"></div>
-                  <button type="button" id="btnLoginDev" class="btn btn-primary" style="width: 100%; padding: 11px; font-weight: 600; margin-top: 4px;">
-                    Login as Developer
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Dedicated Developer Greeting Screen with Sakura Blossom Rain -->
-            <div id="developerGreetingScreen" class="dev-greeting-screen hidden">
-              <div class="falling-petals-container" id="fallingPetalsContainer"></div>
-              <div class="greeting-content">
-                <div class="greeting-flower-icon">🌸</div>
-                <div class="greeting-title">HIII KRISHH!!</div>
-              </div>
-            </div>
 
             <!-- SYSTEM_ALERT_WINDOW Full Screen Lock Screen Overlay (image_a52895.png replication) -->
             <div id="dawaiiOverlay" class="dawaii-overlay sakura-theme dim-state hidden">

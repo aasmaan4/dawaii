@@ -21,8 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
 import com.dawaii.app.data.preferences.AppPreferences
 import com.dawaii.app.receiver.MedicationAlarmScheduler
-import com.dawaii.app.ui.auth.DeveloperGreetingScreen
-import com.dawaii.app.ui.auth.LoginScreen
 import com.dawaii.app.ui.navigation.AppNavigationScaffold
 import com.dawaii.app.ui.theme.DarkCharcoalBg
 import com.dawaii.app.ui.theme.DawaiiTheme
@@ -51,46 +49,13 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val currentTheme by preferences.themeFlow.collectAsState()
-            val savedAuthMode = remember { preferences.authMode }
-            var currentAuthMode by remember { mutableStateOf<String?>(savedAuthMode) }
-            // Developer mode: show the "HIII KRISHH!!" popup page every time Krish opens the app
-            var isShowingGreeting by remember { mutableStateOf(savedAuthMode == "developer") }
 
             DawaiiTheme(appTheme = currentTheme) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = DarkCharcoalBg
                 ) {
-                    when {
-                        currentAuthMode == null -> {
-                            LoginScreen(
-                                onGuestLogin = {
-                                    currentAuthMode = "guest"
-                                    isShowingGreeting = false
-                                },
-                                onDeveloperLogin = {
-                                    currentAuthMode = "developer"
-                                    isShowingGreeting = true
-                                }
-                            )
-                        }
-                        isShowingGreeting && currentAuthMode == "developer" -> {
-                            DeveloperGreetingScreen(
-                                onProceed = {
-                                    isShowingGreeting = false
-                                }
-                            )
-                        }
-                        else -> {
-                            AppNavigationScaffold(
-                                onLogout = {
-                                    preferences.authMode = null
-                                    currentAuthMode = null
-                                    isShowingGreeting = false
-                                }
-                            )
-                        }
-                    }
+                    AppNavigationScaffold()
                 }
             }
         }

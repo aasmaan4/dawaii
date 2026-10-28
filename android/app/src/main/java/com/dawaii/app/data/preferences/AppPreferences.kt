@@ -33,8 +33,6 @@ class AppPreferences(context: Context) {
     private val prefs: SharedPreferences = context.applicationContext.getSharedPreferences("dawaii_settings", Context.MODE_PRIVATE)
 
     companion object {
-        const val DEVELOPER_GEMINI_KEY = ""
-        private const val KEY_AUTH_MODE = "key_auth_mode"
         private const val KEY_THEME = "key_theme"
         private const val KEY_DIMNESS = "key_dimness"
         private const val KEY_CHIME_ENABLED = "key_chime_enabled"
@@ -385,24 +383,6 @@ class AppPreferences(context: Context) {
     fun setMedicineReminderEnabled(medId: Long, enabled: Boolean) {
         prefs.edit().putBoolean("KEY_MED_REMINDER_$medId", enabled).apply()
     }
-
-    var authMode: String?
-        get() = prefs.getString(KEY_AUTH_MODE, null)
-        set(value) {
-            prefs.edit().putString(KEY_AUTH_MODE, value).apply()
-            if (value == "developer") {
-                if (geminiApiKey.isBlank() && DEVELOPER_GEMINI_KEY.isNotBlank()) {
-                    geminiApiKey = DEVELOPER_GEMINI_KEY
-                }
-            } else if (value == "guest") {
-                if (geminiApiKey == DEVELOPER_GEMINI_KEY || DEVELOPER_GEMINI_KEY.isBlank()) {
-                    geminiApiKey = ""
-                }
-            }
-        }
-
-    val isDeveloperMode: Boolean
-        get() = authMode == "developer"
 
     var lastSeenVersionCode: Long
         get() = prefs.getLong(KEY_LAST_SEEN_VERSION_CODE, 0L)

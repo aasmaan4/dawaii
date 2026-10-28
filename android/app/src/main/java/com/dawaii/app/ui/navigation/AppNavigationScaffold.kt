@@ -240,28 +240,21 @@ fun AppNavigationScaffold(
 
                 Spacer(modifier = Modifier.weight(1f))
                 HorizontalDivider(color = DarkBorder)
-                val prefs = remember { com.dawaii.app.data.preferences.AppPreferences.getInstance(context) }
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 20.dp, vertical = 12.dp),
+                        .padding(horizontal = 20.dp, vertical = 14.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
                 ) {
                     Column {
-                        Text("Active Mode", fontSize = 10.sp, color = MutedGreyPink)
+                        Text("DAWAII", fontSize = 10.sp, color = MutedGreyPink, letterSpacing = 1.sp)
                         Text(
-                            text = if (prefs.isDeveloperMode) "Developer (Krish)" else "Guest",
+                            text = "v2.4.7",
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Bold,
                             color = BlushPinkPrimary
                         )
-                    }
-                    TextButton(onClick = {
-                        prefs.authMode = null
-                        onLogout()
-                    }) {
-                        Text("Switch", color = SoftWhite, fontSize = 11.sp)
                     }
                 }
             }

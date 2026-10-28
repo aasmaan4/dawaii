@@ -1226,21 +1226,12 @@ const btnSaveGeminiKey = document.getElementById('btnSaveGeminiKey');
 const geminiKeyStatus = document.getElementById('geminiKeyStatus');
 
 function initGeminiKeyField() {
-  const mode = getCurrentAuthMode();
-  let savedKey = localStorage.getItem('dawaii_gemini_api_key') || '';
-  if (!savedKey && mode === 'developer' && DEVELOPER_GEMINI_KEY) {
-    savedKey = DEVELOPER_GEMINI_KEY;
-    localStorage.setItem('dawaii_gemini_api_key', savedKey);
-  } else if (mode === 'guest' && DEVELOPER_GEMINI_KEY && savedKey === DEVELOPER_GEMINI_KEY) {
-    // Ensure developer key is not present by default in guest mode
-    savedKey = '';
-    localStorage.removeItem('dawaii_gemini_api_key');
-  }
+  const savedKey = localStorage.getItem('dawaii_gemini_api_key') || '';
   if (inputGeminiApiKey) {
     inputGeminiApiKey.value = savedKey;
   }
   if (geminiKeyStatus) {
-    geminiKeyStatus.textContent = savedKey ? (mode === 'developer' ? "Developer Gemini Vision Active ✓" : "Using Your Gemini Account Model ✓") : "Enter key to use your Gemini model";
+    geminiKeyStatus.textContent = savedKey ? "Using Your Gemini Account Model ✓" : "Enter key to use your Gemini model";
     geminiKeyStatus.style.color = savedKey ? "var(--sakura-pink)" : "var(--text-dim)";
   }
 }
@@ -3426,128 +3417,6 @@ if (btnCheckAppUpdate) {
   });
 }
 
-// --- 23. Login Gatekeeper & Developer Mode Auth Engine ---
-const DEVELOPER_GEMINI_KEY = "";
-
-function initAuthFlow() {
-  const loginModal = document.getElementById('loginGatekeeperModal');
-  const greetingScreen = document.getElementById('developerGreetingScreen');
-  const tabGuest = document.getElementById('tabModeGuest');
-  const tabDev = document.getElementById('tabModeDev');
-  const viewGuest = document.getElementById('viewAuthGuest');
-  const viewDev = document.getElementById('viewAuthDev');
-  const btnContinueGuest = document.getElementById('btnContinueGuest');
-  const btnLoginDev = document.getElementById('btnLoginDev');
-  const inputDevUser = document.getElementById('inputDevUser');
-  const inputDevPass = document.getElementById('inputDevPass');
-  const devAuthError = document.getElementById('devAuthError');
-  const btnProceedGreeting = document.getElementById('btnProceedFromGreeting');
-  const drawerModeLabel = document.getElementById('drawerAuthModeLabel');
-  const btnSwitchMode = document.getElementById('btnSwitchAuthMode');
-
-  tabGuest?.addEventListener('click', () => {
-    tabGuest.classList.add('active');
-    tabDev.classList.remove('active');
-    viewGuest.classList.remove('hidden');
-    viewDev.classList.add('hidden');
-    if (devAuthError) devAuthError.textContent = '';
-  });
-
-  tabDev?.addEventListener('click', () => {
-    tabDev.classList.add('active');
-    tabGuest.classList.remove('active');
-    viewDev.classList.remove('hidden');
-    viewGuest.classList.add('hidden');
-    if (inputDevUser) inputDevUser.focus();
-  });
-
-  btnContinueGuest?.addEventListener('click', () => {
-    localStorage.setItem('dawaii_auth_mode', 'guest');
-    updateAuthDisplay();
-    loginModal.classList.add('hidden');
-    loadUserData();
-    renderDashboard();
-  });
-
-  function performDevLogin() {
-    const user = (inputDevUser?.value || '').trim();
-    const pass = (inputDevPass?.value || '').trim();
-    if (user.toLowerCase() === 'krish' && pass === 'babys') {
-      localStorage.setItem('dawaii_auth_mode', 'developer');
-      // Set developer Gemini API key automatically if configured
-      if (DEVELOPER_GEMINI_KEY) {
-        localStorage.setItem('dawaii_gemini_api_key', DEVELOPER_GEMINI_KEY);
-        state.geminiApiKey = DEVELOPER_GEMINI_KEY;
-        const keyInput = document.getElementById('inputGeminiApiKey');
-        if (keyInput) keyInput.value = DEVELOPER_GEMINI_KEY;
-        const statusPill = document.getElementById('geminiKeyStatus');
-        if (statusPill) {
-          statusPill.textContent = 'Active (Developer Key)';
-          statusPill.style.color = '#67d59a';
-        }
-      }
-
-      updateAuthDisplay();
-      loginModal.classList.add('hidden');
-      loadUserData();
-      renderDashboard();
-      showDeveloperGreeting();
-    } else {
-      if (devAuthError) devAuthError.textContent = 'Incorrect credentials.';
-    }
-  }
-
-  btnLoginDev?.addEventListener('click', performDevLogin);
-  inputDevPass?.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') performDevLogin();
-  });
-
-  btnProceedGreeting?.addEventListener('click', () => {
-    greetingScreen.classList.add('hidden');
-  });
-
-  btnSwitchMode?.addEventListener('click', () => {
-    loginModal.classList.remove('hidden');
-  });
-
-  function updateAuthDisplay() {
-    const mode = localStorage.getItem('dawaii_auth_mode');
-    if (drawerModeLabel) {
-      drawerModeLabel.textContent = mode === 'developer' ? 'Developer (Krish)' : 'Guest';
-    }
-  }
-
-  function showDeveloperGreeting() {
-    greetingScreen.classList.remove('hidden');
-    greetingScreen.classList.remove('swooshing-away');
-    startSakuraFlowerRain();
-    setTimeout(() => {
-      greetingScreen.classList.add('swooshing-away');
-      setTimeout(() => {
-        greetingScreen.classList.add('hidden');
-        greetingScreen.classList.remove('swooshing-away');
-      }, 750);
-    }, 2000);
-  }
-
-  // Check persisted auth mode: login only once, no need to re-login every time
-  const persistedMode = localStorage.getItem('dawaii_auth_mode');
-  if (persistedMode === 'developer') {
-    loginModal.classList.add('hidden');
-    updateAuthDisplay();
-    showDeveloperGreeting();
-  } else if (persistedMode === 'guest') {
-    loginModal.classList.add('hidden');
-    updateAuthDisplay();
-  } else {
-    loginModal.classList.remove('hidden');
-    if (inputDevUser) inputDevUser.value = '';
-    if (inputDevPass) inputDevPass.value = '';
-    if (devAuthError) devAuthError.textContent = '';
-    updateAuthDisplay();
-  }
-}
-
 // --- 24. Initial Render ---
 buildWheel();
 renderDashboard();
@@ -3556,7 +3425,6 @@ renderMasterCabinet();
 renderAppointments();
 renderDatabaseTable();
 initCloudSync();
-initAuthFlow();
 
 // Dismiss app buffering screen smoothly once resources are ready
 setTimeout(() => {
